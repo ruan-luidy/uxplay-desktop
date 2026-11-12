@@ -167,7 +167,7 @@ public class MainViewModel : ViewModelBase
         ServerState.Stopped => Loc["ServerStoppedDesc"],
         ServerState.Starting => Loc["StartingEngineDesc"],
         ServerState.Listening => string.Format(Loc["ReadyToConnectDesc"], Settings.ServerName),
-        ServerState.Connecting => $"Handshake with {Session.ClientIpAddress ?? "device"}...",
+        ServerState.Connecting => string.Format(Loc["ConnectingDesc"], Session.ClientIpAddress ?? "AirPlay"),
         ServerState.Streaming => $"{Session.ActiveResolution} @ {Session.ActiveCodec} • {FormattedDuration}",
         ServerState.Stopping => Loc["StoppingServerDesc"],
         ServerState.Error => Loc["ServerErrorDesc"],
@@ -657,7 +657,7 @@ public class MainViewModel : ViewModelBase
         _selectedPresetOption = PresetOptions.FirstOrDefault(p => p.Preset == _settings.Preset) ?? PresetOptions[0];
 
         Logs = new LogsViewModel();
-        Logs.AddEntry(new LogEntry { Level = LogLevel.Info, Message = "UxPlay Desktop inicializado. Esperando inicio de sesión o conexiones AirPlay..." });
+        Logs.AddEntry(new LogEntry { Level = LogLevel.Info, Message = "UxPlay Desktop started. Waiting for the AirPlay server or an incoming connection..." });
 
         ApplyAccentColor(AccentColor);
         UpdateWindowDimensions(_settings.CompactMode);

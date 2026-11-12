@@ -85,7 +85,7 @@ public partial class MainWindow : HandyControl.Controls.Window
             WindowState = WindowState.Minimized;
             ShowInTaskbar = false;
             Hide();
-            _trayService?.ShowNotification("UxPlay Desktop", "UxPlay is running in the background. Click this tray icon to restore.");
+            _trayService?.ShowNotification("UxPlay Desktop", LocalizationService.Instance["TrayRunningInBackground"]);
             return;
         }
 

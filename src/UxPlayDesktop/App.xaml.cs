@@ -20,7 +20,8 @@ public partial class App : Application
                 var dir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "UxPlayDesktop");
                 System.IO.Directory.CreateDirectory(dir);
                 System.IO.File.WriteAllText(System.IO.Path.Combine(dir, "crash.log"), e.Exception.ToString());
-                MessageBox.Show($"Ha ocurrido un error inesperado en UxPlay Desktop:\n\n{e.Exception.Message}\n\nLos detalles se han guardado en crash.log.", "UxPlay Desktop - Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var loc = LocalizationService.Instance;
+                MessageBox.Show(string.Format(loc["UnexpectedError"], e.Exception.Message), $"UxPlay Desktop - {loc["ErrorTitle"]}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch { }
             e.Handled = true;

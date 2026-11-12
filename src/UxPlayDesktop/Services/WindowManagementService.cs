@@ -17,7 +17,7 @@ public class DisplayInfo
     public int Height { get; set; }
     public bool IsPrimary { get; set; }
 
-    public string DisplayLabel => $"{Name} ({Width}x{Height}){(IsPrimary ? " [Principal]" : "")}";
+    public string DisplayLabel => $"{Name} ({Width}x{Height}){(IsPrimary ? $" [{LocalizationService.Instance["PrimaryDisplay"]}]" : "")}";
 }
 
 public interface IWindowManagementService
@@ -118,7 +118,7 @@ public class WindowManagementService : IWindowManagementService
                 list.Add(new DisplayInfo
                 {
                     Index = index++,
-                    Name = $"Pantalla {index}",
+                    Name = string.Format(LocalizationService.Instance["DisplayNameFormat"], index),
                     Width = width,
                     Height = height,
                     IsPrimary = isPrimary
@@ -132,7 +132,7 @@ public class WindowManagementService : IWindowManagementService
             list.Add(new DisplayInfo
             {
                 Index = 0,
-                Name = "Pantalla Principal",
+                Name = string.Format(LocalizationService.Instance["DisplayNameFormat"], 1),
                 Width = 1920,
                 Height = 1080,
                 IsPrimary = true

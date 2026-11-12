@@ -287,6 +287,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Bonjour could not be configured automatically. If Apple devices cannot find this PC, run fix_bonjour.bat as administrator.",
             ["UpdateFailed"] = "The update could not be installed",
             ["UpdateFailedDesc"] = "Download the latest installer from GitHub Releases.",
+            ["DisplayNameFormat"] = "Display {0}",
+            ["PrimaryDisplay"] = "Primary",
+            ["ConnectingDesc"] = "Connecting to {0}...",
+            ["TrayRunningInBackground"] = "UxPlay is still running in the background. Click the tray icon to open it again.",
+            ["UnexpectedError"] = "UxPlay Desktop ran into an unexpected error:\n\n{0}\n\nThe details were saved to crash.log.",
+            ["ErrorTitle"] = "Error",
         };
 
         // 2. SPANISH (Español)
@@ -452,6 +458,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "No se pudo configurar Bonjour automáticamente. Si los dispositivos Apple no encuentran este PC, ejecuta fix_bonjour.bat como administrador.",
             ["UpdateFailed"] = "No se pudo instalar la actualización",
             ["UpdateFailedDesc"] = "Descarga el instalador más reciente desde GitHub Releases.",
+            ["DisplayNameFormat"] = "Pantalla {0}",
+            ["PrimaryDisplay"] = "Principal",
+            ["ConnectingDesc"] = "Conectando con {0}...",
+            ["TrayRunningInBackground"] = "UxPlay sigue ejecutándose en segundo plano. Haz clic en el icono de la bandeja para volver a abrirlo.",
+            ["UnexpectedError"] = "UxPlay Desktop encontró un error inesperado:\n\n{0}\n\nLos detalles se guardaron en crash.log.",
+            ["ErrorTitle"] = "Error",
         };
 
         // 3. FRENCH (Français)
@@ -593,6 +605,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Impossible de configurer Bonjour automatiquement. Si les appareils Apple ne trouvent pas ce PC, exécutez fix_bonjour.bat en tant qu'administrateur.",
             ["UpdateFailed"] = "La mise à jour n'a pas pu être installée",
             ["UpdateFailedDesc"] = "Téléchargez le dernier installateur depuis GitHub Releases.",
+            ["DisplayNameFormat"] = "Écran {0}",
+            ["PrimaryDisplay"] = "Principal",
+            ["ConnectingDesc"] = "Connexion à {0}...",
+            ["TrayRunningInBackground"] = "UxPlay continue de s'exécuter en arrière-plan. Cliquez sur l'icône de la zone de notification pour le rouvrir.",
+            ["UnexpectedError"] = "UxPlay Desktop a rencontré une erreur inattendue :\n\n{0}\n\nLes détails ont été enregistrés dans crash.log.",
+            ["ErrorTitle"] = "Erreur",
         };
 
         // 4. GERMAN (Deutsch)
@@ -734,6 +752,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Bonjour konnte nicht automatisch eingerichtet werden. Wenn Apple-Geräte diesen PC nicht finden, führe fix_bonjour.bat als Administrator aus.",
             ["UpdateFailed"] = "Das Update konnte nicht installiert werden",
             ["UpdateFailedDesc"] = "Lade den neuesten Installer von GitHub Releases herunter.",
+            ["DisplayNameFormat"] = "Bildschirm {0}",
+            ["PrimaryDisplay"] = "Primär",
+            ["ConnectingDesc"] = "Verbindung mit {0}...",
+            ["TrayRunningInBackground"] = "UxPlay läuft im Hintergrund weiter. Klicke auf das Symbol im Infobereich, um es wieder zu öffnen.",
+            ["UnexpectedError"] = "In UxPlay Desktop ist ein unerwarteter Fehler aufgetreten:\n\n{0}\n\nDie Details wurden in crash.log gespeichert.",
+            ["ErrorTitle"] = "Fehler",
         };
 
         // 5. ITALIAN (Italiano)
@@ -875,6 +899,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Impossibile configurare Bonjour automaticamente. Se i dispositivi Apple non trovano questo PC, esegui fix_bonjour.bat come amministratore.",
             ["UpdateFailed"] = "Impossibile installare l'aggiornamento",
             ["UpdateFailedDesc"] = "Scarica il programma di installazione più recente da GitHub Releases.",
+            ["DisplayNameFormat"] = "Schermo {0}",
+            ["PrimaryDisplay"] = "Principale",
+            ["ConnectingDesc"] = "Connessione a {0}...",
+            ["TrayRunningInBackground"] = "UxPlay continua a funzionare in background. Fai clic sull'icona nell'area di notifica per riaprirlo.",
+            ["UnexpectedError"] = "UxPlay Desktop ha riscontrato un errore imprevisto:\n\n{0}\n\nI dettagli sono stati salvati in crash.log.",
+            ["ErrorTitle"] = "Errore",
         };
 
         // 6. PORTUGUESE (Brasil & América)
@@ -1016,6 +1046,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Não foi possível configurar o Bonjour automaticamente. Se os aparelhos Apple não encontrarem este PC, execute o fix_bonjour.bat como administrador.",
             ["UpdateFailed"] = "Não foi possível instalar a atualização",
             ["UpdateFailedDesc"] = "Baixe o instalador mais recente no GitHub Releases.",
+            ["DisplayNameFormat"] = "Tela {0}",
+            ["PrimaryDisplay"] = "Principal",
+            ["ConnectingDesc"] = "Conectando a {0}...",
+            ["TrayRunningInBackground"] = "O UxPlay continua rodando em segundo plano. Clique no ícone da bandeja para abrir de novo.",
+            ["UnexpectedError"] = "O UxPlay Desktop encontrou um erro inesperado:\n\n{0}\n\nOs detalhes foram salvos em crash.log.",
+            ["ErrorTitle"] = "Erro",
         };
         _translations["pt-PT"] = _translations["pt-BR"];
 
@@ -1158,6 +1194,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Не удалось автоматически настроить Bonjour. Если устройства Apple не видят этот ПК, запустите fix_bonjour.bat от имени администратора.",
             ["UpdateFailed"] = "Не удалось установить обновление",
             ["UpdateFailedDesc"] = "Скачайте последнюю версию установщика из GitHub Releases.",
+            ["DisplayNameFormat"] = "Экран {0}",
+            ["PrimaryDisplay"] = "Основной",
+            ["ConnectingDesc"] = "Подключение к {0}...",
+            ["TrayRunningInBackground"] = "UxPlay продолжает работать в фоне. Нажмите на значок в трее, чтобы открыть его снова.",
+            ["UnexpectedError"] = "В UxPlay Desktop произошла непредвиденная ошибка:\n\n{0}\n\nПодробности сохранены в crash.log.",
+            ["ErrorTitle"] = "Ошибка",
         };
 
         // 8. CHINESE (Simplified - 简体中文)
@@ -1299,6 +1341,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "无法自动配置 Bonjour。如果 Apple 设备找不到此电脑，请以管理员身份运行 fix_bonjour.bat。",
             ["UpdateFailed"] = "无法安装更新",
             ["UpdateFailedDesc"] = "请从 GitHub Releases 下载最新的安装程序。",
+            ["DisplayNameFormat"] = "显示器 {0}",
+            ["PrimaryDisplay"] = "主显示器",
+            ["ConnectingDesc"] = "正在连接 {0}...",
+            ["TrayRunningInBackground"] = "UxPlay 仍在后台运行。单击托盘图标可重新打开。",
+            ["UnexpectedError"] = "UxPlay Desktop 遇到意外错误：\n\n{0}\n\n详细信息已保存到 crash.log。",
+            ["ErrorTitle"] = "错误",
         };
 
         // 9. JAPANESE (日本語)
@@ -1440,6 +1488,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Bonjour を自動で設定できませんでした。Apple デバイスがこの PC を見つけられない場合は、fix_bonjour.bat を管理者として実行してください。",
             ["UpdateFailed"] = "アップデートをインストールできませんでした",
             ["UpdateFailedDesc"] = "GitHub Releases から最新のインストーラーをダウンロードしてください。",
+            ["DisplayNameFormat"] = "ディスプレイ {0}",
+            ["PrimaryDisplay"] = "メイン",
+            ["ConnectingDesc"] = "{0} に接続中...",
+            ["TrayRunningInBackground"] = "UxPlay はバックグラウンドで実行中です。トレイアイコンをクリックすると再び開きます。",
+            ["UnexpectedError"] = "UxPlay Desktop で予期しないエラーが発生しました:\n\n{0}\n\n詳細は crash.log に保存されました。",
+            ["ErrorTitle"] = "エラー",
         };
 
         // 10. POLISH, DUTCH, UKRAINIAN, SWEDISH, KOREAN aliases & definitions
@@ -1508,6 +1562,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Nie udało się automatycznie skonfigurować Bonjour. Jeśli urządzenia Apple nie widzą tego komputera, uruchom fix_bonjour.bat jako administrator.",
             ["UpdateFailed"] = "Nie udało się zainstalować aktualizacji",
             ["UpdateFailedDesc"] = "Pobierz najnowszy instalator z GitHub Releases.",
+            ["DisplayNameFormat"] = "Ekran {0}",
+            ["PrimaryDisplay"] = "Główny",
+            ["ConnectingDesc"] = "Łączenie z {0}...",
+            ["TrayRunningInBackground"] = "UxPlay nadal działa w tle. Kliknij ikonę w zasobniku, aby otworzyć go ponownie.",
+            ["UnexpectedError"] = "W UxPlay Desktop wystąpił nieoczekiwany błąd:\n\n{0}\n\nSzczegóły zapisano w pliku crash.log.",
+            ["ErrorTitle"] = "Błąd",
         };
 
         _translations["nl"] = new Dictionary<string, string>(_translations["en"])
@@ -1575,6 +1635,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Bonjour kon niet automatisch worden ingesteld. Als Apple-apparaten deze pc niet vinden, voer fix_bonjour.bat uit als administrator.",
             ["UpdateFailed"] = "De update kon niet worden geïnstalleerd",
             ["UpdateFailedDesc"] = "Download het nieuwste installatieprogramma via GitHub Releases.",
+            ["DisplayNameFormat"] = "Beeldscherm {0}",
+            ["PrimaryDisplay"] = "Primair",
+            ["ConnectingDesc"] = "Verbinden met {0}...",
+            ["TrayRunningInBackground"] = "UxPlay draait op de achtergrond. Klik op het pictogram in het systeemvak om het weer te openen.",
+            ["UnexpectedError"] = "UxPlay Desktop heeft een onverwachte fout gevonden:\n\n{0}\n\nDe details zijn opgeslagen in crash.log.",
+            ["ErrorTitle"] = "Fout",
         };
 
         _translations["uk"] = new Dictionary<string, string>(_translations["ru"])
@@ -1642,6 +1708,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Не вдалося автоматично налаштувати Bonjour. Якщо пристрої Apple не бачать цей ПК, запустіть fix_bonjour.bat від імені адміністратора.",
             ["UpdateFailed"] = "Не вдалося встановити оновлення",
             ["UpdateFailedDesc"] = "Завантажте найновіший інсталятор із GitHub Releases.",
+            ["DisplayNameFormat"] = "Екран {0}",
+            ["PrimaryDisplay"] = "Основний",
+            ["ConnectingDesc"] = "Підключення до {0}...",
+            ["TrayRunningInBackground"] = "UxPlay і далі працює у фоні. Натисніть значок у треї, щоб відкрити його знову.",
+            ["UnexpectedError"] = "У UxPlay Desktop сталася неочікувана помилка:\n\n{0}\n\nПодробиці збережено в crash.log.",
+            ["ErrorTitle"] = "Помилка",
         };
 
         _translations["sv"] = new Dictionary<string, string>(_translations["en"])
@@ -1704,6 +1776,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Bonjour kunde inte konfigureras automatiskt. Om Apple-enheter inte hittar den här datorn, kör fix_bonjour.bat som administratör.",
             ["UpdateFailed"] = "Uppdateringen kunde inte installeras",
             ["UpdateFailedDesc"] = "Ladda ned det senaste installationsprogrammet från GitHub Releases.",
+            ["DisplayNameFormat"] = "Skärm {0}",
+            ["PrimaryDisplay"] = "Primär",
+            ["ConnectingDesc"] = "Ansluter till {0}...",
+            ["TrayRunningInBackground"] = "UxPlay körs fortfarande i bakgrunden. Klicka på ikonen i meddelandefältet för att öppna det igen.",
+            ["UnexpectedError"] = "UxPlay Desktop stötte på ett oväntat fel:\n\n{0}\n\nInformationen sparades i crash.log.",
+            ["ErrorTitle"] = "Fel",
         };
 
         _translations["ko"] = new Dictionary<string, string>(_translations["ja"])
@@ -1770,6 +1848,12 @@ public class LocalizationService : ILocalizationService
             ["BonjourRepairFailed"] = "Bonjour를 자동으로 구성하지 못했습니다. Apple 기기에서 이 PC를 찾지 못하면 fix_bonjour.bat을 관리자 권한으로 실행하세요.",
             ["UpdateFailed"] = "업데이트를 설치하지 못했습니다",
             ["UpdateFailedDesc"] = "GitHub Releases에서 최신 설치 프로그램을 다운로드하세요.",
+            ["DisplayNameFormat"] = "디스플레이 {0}",
+            ["PrimaryDisplay"] = "기본",
+            ["ConnectingDesc"] = "{0}에 연결 중...",
+            ["TrayRunningInBackground"] = "UxPlay가 백그라운드에서 계속 실행 중입니다. 트레이 아이콘을 클릭하면 다시 열립니다.",
+            ["UnexpectedError"] = "UxPlay Desktop에서 예기치 않은 오류가 발생했습니다:\n\n{0}\n\n자세한 내용은 crash.log에 저장되었습니다.",
+            ["ErrorTitle"] = "오류",
         };
     }
 }
