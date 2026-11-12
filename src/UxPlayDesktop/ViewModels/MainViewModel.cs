@@ -176,6 +176,13 @@ public class MainViewModel : ViewModelBase
     public string DisplayAudioDelay => string.Format(Loc["AudioDelayFormat"], Settings.AudioDelayMs);
     public string DisplayStep3Desc => string.Format(Loc["Step3Desc"], Settings.ServerName);
     public string AppVersionDisplay => "UxPlay Desktop v1.2.3";
+    public string AppVersion => typeof(MainViewModel).Assembly.GetName().Version is { } v ? $"v{v.Major}.{v.Minor}.{v.Build}" : string.Empty;
+
+    // The about bullets without the leading dot the strings carry, so each can sit on its own row
+    public IReadOnlyList<string> AboutHighlights =>
+        new[] { "AboutBullet1", "AboutBullet2", "AboutBullet3", "AboutBullet4" }
+            .Select(key => Loc[key].TrimStart('•', ' '))
+            .ToList();
     public string LocalNetworkInfo => GetLocalNetworkInfo();
 
     public bool StartOnBoot
@@ -634,6 +641,7 @@ public class MainViewModel : ViewModelBase
             OnPropertyChanged(nameof(MuteButtonText));
             OnPropertyChanged(nameof(SessionActiveText));
             OnPropertyChanged(nameof(BonjourStatusText));
+            OnPropertyChanged(nameof(AboutHighlights));
         };
 
         _processManager.StateChanged += state => RunOnUi(() => ServerState = state);

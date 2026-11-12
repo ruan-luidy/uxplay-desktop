@@ -3,35 +3,96 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:models="clr-namespace:UxPlayDesktop.Models"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:icons="clr-namespace:UxPlayDesktop.Icons"
              xmlns:vm="clr-namespace:UxPlayDesktop.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
              mc:Ignorable="d">
 
-    <Border Style="{StaticResource CardStyle}" Margin="0,10,0,0">
-        <StackPanel>
-            <TextBlock Text="UxPlay Desktop for Windows" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,6" />
-            <TextBlock Text="{Binding Loc[AboutSubtitle]}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" Margin="0,0,0,16" />
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="760" Margin="0,0,0,16" HorizontalAlignment="Left">
 
-            <TextBlock Text="{Binding Loc[AboutDesc]}" Foreground="#CCCCCC" TextWrapping="Wrap" Margin="0,0,0,16" />
+            <!-- The app: icon, name, version and what it is for -->
+            <DockPanel Margin="0,0,0,4">
+                <Border Width="56"
+                        Height="56"
+                        Margin="0,0,16,0"
+                        Background="{DynamicResource Card.BackgroundBrush}"
+                        CornerRadius="14"
+                        DockPanel.Dock="Left">
+                    <Image Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" Source="/UxPlayDesktop;component/resources/newicon.ico" />
+                </Border>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource PageTitle}" Text="UxPlay Desktop" />
+                    <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}">
+                        <Run FontFamily="{StaticResource FontFamily.Numbers}" Text="{Binding AppVersion, Mode=OneWay}" /><Run Text="  ·  " /><Run Text="{Binding Loc[AboutSubtitle], Mode=OneWay}" />
+                    </TextBlock>
+                </StackPanel>
+            </DockPanel>
 
-            <TextBlock Text="{Binding Loc[AboutArchTitle]}" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,4" />
-            <TextBlock Text="{Binding Loc[AboutBullet1]}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,2" />
-            <TextBlock Text="{Binding Loc[AboutBullet2]}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,2" />
-            <TextBlock Text="{Binding Loc[AboutBullet3]}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,2" />
-            <TextBlock Text="{Binding Loc[AboutBullet4]}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,16" />
+            <TextBlock Margin="0,16,0,0" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding Loc[AboutDesc]}" TextWrapping="Wrap" />
 
-            <TextBlock Text="{Binding Loc[AboutAuthor]}" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,4" />
-            <TextBlock Margin="0,0,0,4">
-                <Run Text="GitHub: " Foreground="{StaticResource TextSecondaryBrush}" />
-                <Hyperlink NavigateUri="https://github.com/jorjanion/uxplay-desktop"
-                           RequestNavigate="Hyperlink_RequestNavigate"
-                           Foreground="{DynamicResource PrimaryBrush}"
-                           Cursor="Hand">
-                    https://github.com/jorjanion/uxplay-desktop
-                </Hyperlink>
-            </TextBlock>
-            <TextBlock Text="License: GNU General Public License v3.0 (GPL-3.0)" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,16" />
+            <!-- What runs underneath -->
+            <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[AboutArchTitle]}" />
+            <Border Style="{StaticResource InfoCard}">
+                <ItemsControl ItemsSource="{Binding AboutHighlights}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Border x:Name="Divider" Style="{StaticResource InfoDivider}" />
+                                <DockPanel Style="{StaticResource InfoRow}">
+                                    <Path Width="14"
+                                          Height="14"
+                                          Margin="0,0,12,0"
+                                          VerticalAlignment="Center"
+                                          Data="{icons:Phosphor CheckCircleBold}"
+                                          DockPanel.Dock="Left"
+                                          Fill="{DynamicResource Accent.TextBrush}"
+                                          Stretch="Uniform" />
+                                    <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding}" TextWrapping="Wrap" />
+                                </DockPanel>
+                            </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                    <Setter TargetName="Divider" Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+
+            <!-- Links -->
+            <TextBlock Style="{StaticResource SectionLabel}" Text="GitHub" />
+            <Border Style="{StaticResource InfoCard}">
+                <StackPanel>
+                    <DockPanel Style="{StaticResource InfoRow}">
+                        <Button VerticalAlignment="Center"
+                                hc:IconElement.Geometry="{icons:Phosphor ArrowSquareOutBold}"
+                                Click="OpenLink_Click"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource Action.Icon.Small}"
+                                Tag="https://github.com/jorjanion/uxplay-desktop"
+                                ToolTip="https://github.com/jorjanion/uxplay-desktop" />
+                        <Path Width="16" Height="16" Margin="0,0,12,0" VerticalAlignment="Center" Data="{icons:Phosphor GithubLogoBold}" DockPanel.Dock="Left" Fill="{DynamicResource SecondaryTextBrush}" Stretch="Uniform" />
+                        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Loc[AboutRepo]}" />
+                    </DockPanel>
+                    <Border Style="{StaticResource InfoDivider}" />
+                    <DockPanel Style="{StaticResource InfoRow}">
+                        <Button VerticalAlignment="Center"
+                                hc:IconElement.Geometry="{icons:Phosphor ArrowSquareOutBold}"
+                                Click="OpenLink_Click"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource Action.Icon.Small}"
+                                Tag="https://github.com/jorjanion/uxplay-desktop/issues"
+                                ToolTip="https://github.com/jorjanion/uxplay-desktop/issues" />
+                        <Path Width="16" Height="16" Margin="0,0,12,0" VerticalAlignment="Center" Data="{icons:Phosphor BugBold}" DockPanel.Dock="Left" Fill="{DynamicResource SecondaryTextBrush}" Stretch="Uniform" />
+                        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Loc[AboutIssues]}" />
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Margin="2,16,0,0" Style="{StaticResource CaptionText}" Text="{Binding Loc[AboutAuthor]}" TextTrimming="None" TextWrapping="Wrap" />
         </StackPanel>
-    </Border>
+    </ScrollViewer>
 </UserControl>

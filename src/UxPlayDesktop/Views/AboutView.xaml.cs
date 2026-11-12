@@ -1,6 +1,6 @@
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 
 namespace UxPlayDesktop.Views;
 
@@ -11,17 +11,21 @@ public partial class AboutView : UserControl
         InitializeComponent();
     }
 
-    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    private void OpenLink_Click(object sender, RoutedEventArgs e)
     {
+        if (sender is not FrameworkElement { Tag: string url })
+        {
+            return;
+        }
+
         try
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = e.Uri.AbsoluteUri,
+                FileName = url,
                 UseShellExecute = true
             });
         }
         catch { }
-        e.Handled = true;
     }
 }
