@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -38,7 +39,11 @@ public class MainViewModel : ViewModelBase
     private bool _showDiagnosticDialog;
     private NetworkDiagnosticReport? _diagnosticReport;
     private string? _lastScreenshotPath;
-    private string? _screenshotNotification;
+    private string? _toastTitle;
+    private string? _toastMessage;
+    private Tone _toastTone;
+    private bool _isToastVisible;
+    private CancellationTokenSource? _toastTimer;
     private AppPage _selectedPage = AppPage.Dashboard;
     private IReadOnlyList<DisplayInfo>? _availableDisplays;
 
@@ -445,10 +450,28 @@ public class MainViewModel : ViewModelBase
         set => SetField(ref _lastScreenshotPath, value);
     }
 
-    public string? ScreenshotNotification
+    public string? ToastTitle
     {
-        get => _screenshotNotification;
-        set => SetField(ref _screenshotNotification, value);
+        get => _toastTitle;
+        private set => SetField(ref _toastTitle, value);
+    }
+
+    public string? ToastMessage
+    {
+        get => _toastMessage;
+        private set => SetField(ref _toastMessage, value);
+    }
+
+    public Tone ToastTone
+    {
+        get => _toastTone;
+        private set => SetField(ref _toastTone, value);
+    }
+
+    public bool IsToastVisible
+    {
+        get => _isToastVisible;
+        private set => SetField(ref _isToastVisible, value);
     }
 
     public string StatusColor => ServerState switch
@@ -601,6 +624,7 @@ public class MainViewModel : ViewModelBase
     public ICommand RunDiagnosticCommand { get; }
     public ICommand CloseDiagnosticCommand { get; }
     public ICommand SetAccentColorCommand { get; }
+    public ICommand DismissToastCommand { get; }
 
     public MainViewModel(
         ISettingsService settingsService,
@@ -672,7 +696,11 @@ public class MainViewModel : ViewModelBase
         _processManager.PinCodePrompt += pin => RunOnUi(() => ActivePinCode = pin);
 
         ToggleServerCommand = new RelayCommand(async () => await ToggleServerAsync());
-        SaveSettingsCommand = new RelayCommand(SaveSettings);
+        SaveSettingsCommand = new RelayCommand(() =>
+        {
+            SaveSettings();
+            ShowToast(Loc["SettingsSaved"]);
+        });
         FixBonjourCommand = new RelayCommand(FixBonjour);
         DismissPinCommand = new RelayCommand(() => ActivePinCode = null);
         ApplyUpdateCommand = new RelayCommand(async () => await ApplyUpdateAsync());
@@ -687,6 +715,7 @@ public class MainViewModel : ViewModelBase
         RunDiagnosticCommand = new RelayCommand(async () => await RunDiagnosticsAsync());
         CloseDiagnosticCommand = new RelayCommand(() => ShowDiagnosticDialog = false);
         SetAccentColorCommand = new RelayCommand(color => { if (color is string hex) AccentColor = hex; });
+        DismissToastCommand = new RelayCommand(() => IsToastVisible = false);
 
         // Global hotkey events
         _hotkeyService.OnToggleFullscreen += () => RunOnUi(() =>
@@ -728,8 +757,8 @@ public class MainViewModel : ViewModelBase
         if (!ok)
         {
             IsUpdating = false;
-            var details = !string.IsNullOrEmpty(_updateService.LastError) ? $"\n\nDetails: {_updateService.LastError}" : "";
-            MessageBox.Show($"Failed to download or apply update automatically.{details}\n\nPlease download the latest installer from GitHub Releases.", "Update Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            var details = string.IsNullOrEmpty(_updateService.LastError) ? string.Empty : $" ({_updateService.LastError})";
+            ShowToast(Loc["UpdateFailed"], Loc["UpdateFailedDesc"] + details, Tone.Danger, seconds: 10);
         }
     }
 
@@ -755,22 +784,18 @@ public class MainViewModel : ViewModelBase
     {
         if (_bonjourService.CheckStatus() == BonjourStatus.Running)
         {
-            MessageBox.Show("Bonjour Service is already active and running!", "Discovery", MessageBoxButton.OK, MessageBoxImage.Information);
+            ShowToast("Bonjour (mDNS)", Loc["BonjourAlreadyRunning"]);
             return;
         }
 
         if (_bonjourService.RepairOrInstallService() || _bonjourService.TryStartService())
         {
             CheckBonjourStatus();
-            MessageBox.Show("Bonjour Service configured and started successfully!", "Discovery", MessageBoxButton.OK, MessageBoxImage.Information);
+            ShowToast("Bonjour (mDNS)", Loc["BonjourRepaired"]);
         }
         else
         {
-            MessageBox.Show(
-                "Could not automatically configure Apple Bonjour service. Please run 'fix_bonjour.bat' as Administrator if Apple devices cannot find the PC.",
-                "Discovery",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            ShowToast("Bonjour (mDNS)", Loc["BonjourRepairFailed"], Tone.Warning, seconds: 10);
         }
     }
 
@@ -910,13 +935,36 @@ public class MainViewModel : ViewModelBase
         if (!string.IsNullOrEmpty(path))
         {
             LastScreenshotPath = path;
-            ScreenshotNotification = Loc["ScreenshotSaved"];
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(4000);
-                RunOnUi(() => ScreenshotNotification = null);
-            });
+            ShowToast(Loc["ScreenshotSaved"], path);
         }
+    }
+
+    /// <summary>Shows a short notice at the top of the window; a newer one replaces it and restarts the timer.</summary>
+    public void ShowToast(string title, string? message = null, Tone tone = Tone.Success, int seconds = 4)
+    {
+        ToastTitle = title;
+        ToastMessage = message;
+        ToastTone = tone;
+        IsToastVisible = false;
+        IsToastVisible = true;
+
+        _toastTimer?.Cancel();
+        var timer = _toastTimer = new CancellationTokenSource();
+        _ = HideToastAsync(timer.Token, seconds);
+    }
+
+    private async Task HideToastAsync(CancellationToken token, int seconds)
+    {
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(seconds), token);
+        }
+        catch (TaskCanceledException)
+        {
+            return;
+        }
+
+        RunOnUi(() => IsToastVisible = false);
     }
 
     private void ToggleMute()

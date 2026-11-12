@@ -282,6 +282,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Theme",
             ["ThemeDark"] = "Dark",
             ["ThemeLight"] = "Light",
+            ["BonjourAlreadyRunning"] = "Bonjour is already running.",
+            ["BonjourRepaired"] = "Bonjour was configured and started.",
+            ["BonjourRepairFailed"] = "Bonjour could not be configured automatically. If Apple devices cannot find this PC, run fix_bonjour.bat as administrator.",
+            ["UpdateFailed"] = "The update could not be installed",
+            ["UpdateFailedDesc"] = "Download the latest installer from GitHub Releases.",
         };
 
         // 2. SPANISH (Español)
@@ -442,6 +447,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Tema",
             ["ThemeDark"] = "Oscuro",
             ["ThemeLight"] = "Claro",
+            ["BonjourAlreadyRunning"] = "Bonjour ya está en ejecución.",
+            ["BonjourRepaired"] = "Bonjour se configuró e inició.",
+            ["BonjourRepairFailed"] = "No se pudo configurar Bonjour automáticamente. Si los dispositivos Apple no encuentran este PC, ejecuta fix_bonjour.bat como administrador.",
+            ["UpdateFailed"] = "No se pudo instalar la actualización",
+            ["UpdateFailedDesc"] = "Descarga el instalador más reciente desde GitHub Releases.",
         };
 
         // 3. FRENCH (Français)
@@ -578,6 +588,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Thème",
             ["ThemeDark"] = "Sombre",
             ["ThemeLight"] = "Clair",
+            ["BonjourAlreadyRunning"] = "Bonjour est déjà en cours d'exécution.",
+            ["BonjourRepaired"] = "Bonjour a été configuré et démarré.",
+            ["BonjourRepairFailed"] = "Impossible de configurer Bonjour automatiquement. Si les appareils Apple ne trouvent pas ce PC, exécutez fix_bonjour.bat en tant qu'administrateur.",
+            ["UpdateFailed"] = "La mise à jour n'a pas pu être installée",
+            ["UpdateFailedDesc"] = "Téléchargez le dernier installateur depuis GitHub Releases.",
         };
 
         // 4. GERMAN (Deutsch)
@@ -714,6 +729,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Design",
             ["ThemeDark"] = "Dunkel",
             ["ThemeLight"] = "Hell",
+            ["BonjourAlreadyRunning"] = "Bonjour läuft bereits.",
+            ["BonjourRepaired"] = "Bonjour wurde eingerichtet und gestartet.",
+            ["BonjourRepairFailed"] = "Bonjour konnte nicht automatisch eingerichtet werden. Wenn Apple-Geräte diesen PC nicht finden, führe fix_bonjour.bat als Administrator aus.",
+            ["UpdateFailed"] = "Das Update konnte nicht installiert werden",
+            ["UpdateFailedDesc"] = "Lade den neuesten Installer von GitHub Releases herunter.",
         };
 
         // 5. ITALIAN (Italiano)
@@ -850,6 +870,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Tema",
             ["ThemeDark"] = "Scuro",
             ["ThemeLight"] = "Chiaro",
+            ["BonjourAlreadyRunning"] = "Bonjour è già in esecuzione.",
+            ["BonjourRepaired"] = "Bonjour è stato configurato e avviato.",
+            ["BonjourRepairFailed"] = "Impossibile configurare Bonjour automaticamente. Se i dispositivi Apple non trovano questo PC, esegui fix_bonjour.bat come amministratore.",
+            ["UpdateFailed"] = "Impossibile installare l'aggiornamento",
+            ["UpdateFailedDesc"] = "Scarica il programma di installazione più recente da GitHub Releases.",
         };
 
         // 6. PORTUGUESE (Brasil & América)
@@ -986,6 +1011,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Tema",
             ["ThemeDark"] = "Escuro",
             ["ThemeLight"] = "Claro",
+            ["BonjourAlreadyRunning"] = "O Bonjour já está em execução.",
+            ["BonjourRepaired"] = "O Bonjour foi configurado e iniciado.",
+            ["BonjourRepairFailed"] = "Não foi possível configurar o Bonjour automaticamente. Se os aparelhos Apple não encontrarem este PC, execute o fix_bonjour.bat como administrador.",
+            ["UpdateFailed"] = "Não foi possível instalar a atualização",
+            ["UpdateFailedDesc"] = "Baixe o instalador mais recente no GitHub Releases.",
         };
         _translations["pt-PT"] = _translations["pt-BR"];
 
@@ -1123,6 +1153,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Тема",
             ["ThemeDark"] = "Тёмная",
             ["ThemeLight"] = "Светлая",
+            ["BonjourAlreadyRunning"] = "Bonjour уже запущен.",
+            ["BonjourRepaired"] = "Bonjour настроен и запущен.",
+            ["BonjourRepairFailed"] = "Не удалось автоматически настроить Bonjour. Если устройства Apple не видят этот ПК, запустите fix_bonjour.bat от имени администратора.",
+            ["UpdateFailed"] = "Не удалось установить обновление",
+            ["UpdateFailedDesc"] = "Скачайте последнюю версию установщика из GitHub Releases.",
         };
 
         // 8. CHINESE (Simplified - 简体中文)
@@ -1259,6 +1294,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "主题",
             ["ThemeDark"] = "深色",
             ["ThemeLight"] = "浅色",
+            ["BonjourAlreadyRunning"] = "Bonjour 已在运行。",
+            ["BonjourRepaired"] = "Bonjour 已配置并启动。",
+            ["BonjourRepairFailed"] = "无法自动配置 Bonjour。如果 Apple 设备找不到此电脑，请以管理员身份运行 fix_bonjour.bat。",
+            ["UpdateFailed"] = "无法安装更新",
+            ["UpdateFailedDesc"] = "请从 GitHub Releases 下载最新的安装程序。",
         };
 
         // 9. JAPANESE (日本語)
@@ -1395,6 +1435,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "テーマ",
             ["ThemeDark"] = "ダーク",
             ["ThemeLight"] = "ライト",
+            ["BonjourAlreadyRunning"] = "Bonjour はすでに実行中です。",
+            ["BonjourRepaired"] = "Bonjour を設定して起動しました。",
+            ["BonjourRepairFailed"] = "Bonjour を自動で設定できませんでした。Apple デバイスがこの PC を見つけられない場合は、fix_bonjour.bat を管理者として実行してください。",
+            ["UpdateFailed"] = "アップデートをインストールできませんでした",
+            ["UpdateFailedDesc"] = "GitHub Releases から最新のインストーラーをダウンロードしてください。",
         };
 
         // 10. POLISH, DUTCH, UKRAINIAN, SWEDISH, KOREAN aliases & definitions
@@ -1458,6 +1503,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Motyw",
             ["ThemeDark"] = "Ciemny",
             ["ThemeLight"] = "Jasny",
+            ["BonjourAlreadyRunning"] = "Bonjour już działa.",
+            ["BonjourRepaired"] = "Bonjour został skonfigurowany i uruchomiony.",
+            ["BonjourRepairFailed"] = "Nie udało się automatycznie skonfigurować Bonjour. Jeśli urządzenia Apple nie widzą tego komputera, uruchom fix_bonjour.bat jako administrator.",
+            ["UpdateFailed"] = "Nie udało się zainstalować aktualizacji",
+            ["UpdateFailedDesc"] = "Pobierz najnowszy instalator z GitHub Releases.",
         };
 
         _translations["nl"] = new Dictionary<string, string>(_translations["en"])
@@ -1520,6 +1570,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Thema",
             ["ThemeDark"] = "Donker",
             ["ThemeLight"] = "Licht",
+            ["BonjourAlreadyRunning"] = "Bonjour is al actief.",
+            ["BonjourRepaired"] = "Bonjour is ingesteld en gestart.",
+            ["BonjourRepairFailed"] = "Bonjour kon niet automatisch worden ingesteld. Als Apple-apparaten deze pc niet vinden, voer fix_bonjour.bat uit als administrator.",
+            ["UpdateFailed"] = "De update kon niet worden geïnstalleerd",
+            ["UpdateFailedDesc"] = "Download het nieuwste installatieprogramma via GitHub Releases.",
         };
 
         _translations["uk"] = new Dictionary<string, string>(_translations["ru"])
@@ -1582,6 +1637,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Тема",
             ["ThemeDark"] = "Темна",
             ["ThemeLight"] = "Світла",
+            ["BonjourAlreadyRunning"] = "Bonjour уже запущено.",
+            ["BonjourRepaired"] = "Bonjour налаштовано й запущено.",
+            ["BonjourRepairFailed"] = "Не вдалося автоматично налаштувати Bonjour. Якщо пристрої Apple не бачать цей ПК, запустіть fix_bonjour.bat від імені адміністратора.",
+            ["UpdateFailed"] = "Не вдалося встановити оновлення",
+            ["UpdateFailedDesc"] = "Завантажте найновіший інсталятор із GitHub Releases.",
         };
 
         _translations["sv"] = new Dictionary<string, string>(_translations["en"])
@@ -1639,6 +1699,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "Tema",
             ["ThemeDark"] = "Mörkt",
             ["ThemeLight"] = "Ljust",
+            ["BonjourAlreadyRunning"] = "Bonjour körs redan.",
+            ["BonjourRepaired"] = "Bonjour har konfigurerats och startats.",
+            ["BonjourRepairFailed"] = "Bonjour kunde inte konfigureras automatiskt. Om Apple-enheter inte hittar den här datorn, kör fix_bonjour.bat som administratör.",
+            ["UpdateFailed"] = "Uppdateringen kunde inte installeras",
+            ["UpdateFailedDesc"] = "Ladda ned det senaste installationsprogrammet från GitHub Releases.",
         };
 
         _translations["ko"] = new Dictionary<string, string>(_translations["ja"])
@@ -1700,6 +1765,11 @@ public class LocalizationService : ILocalizationService
             ["ThemeLabel"] = "테마",
             ["ThemeDark"] = "어둡게",
             ["ThemeLight"] = "밝게",
+            ["BonjourAlreadyRunning"] = "Bonjour가 이미 실행 중입니다.",
+            ["BonjourRepaired"] = "Bonjour를 구성하고 시작했습니다.",
+            ["BonjourRepairFailed"] = "Bonjour를 자동으로 구성하지 못했습니다. Apple 기기에서 이 PC를 찾지 못하면 fix_bonjour.bat을 관리자 권한으로 실행하세요.",
+            ["UpdateFailed"] = "업데이트를 설치하지 못했습니다",
+            ["UpdateFailedDesc"] = "GitHub Releases에서 최신 설치 프로그램을 다운로드하세요.",
         };
     }
 }

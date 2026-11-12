@@ -281,6 +281,24 @@ public class MainViewModelTests
     }
 
     [Fact]
+    public void MainViewModel_SaveSettings_ShowsConfirmationToast()
+    {
+        _settingsService.CurrentSettings.AutoStartServer = false;
+        var vm = new MainViewModel(_settingsService, _processManager, _bonjourService, _autostartService);
+        Assert.False(vm.IsToastVisible);
+
+        vm.SaveSettingsCommand.Execute(null);
+
+        Assert.True(vm.IsToastVisible);
+        Assert.Equal(vm.Loc["SettingsSaved"], vm.ToastTitle);
+        Assert.Equal(Tone.Success, vm.ToastTone);
+
+        vm.DismissToastCommand.Execute(null);
+
+        Assert.False(vm.IsToastVisible);
+    }
+
+    [Fact]
     public void MainViewModel_LightTheme_IsSavedInSettings()
     {
         _settingsService.CurrentSettings.AutoStartServer = false;

@@ -68,8 +68,8 @@
         <!-- Mini widget -->
         <views:CompactView Visibility="{Binding IsCompactMode, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
 
-        <!-- Screenshot saved: a toast at the top of the page -->
-        <Grid Width="420"
+        <!-- Notices (screenshot saved, settings saved, Bonjour repair...): a toast at the top of the page -->
+        <Grid Width="440"
               Margin="200,12,0,0"
               HorizontalAlignment="Center"
               VerticalAlignment="Top"
@@ -78,11 +78,45 @@
             <Grid.RenderTransform>
                 <TranslateTransform />
             </Grid.RenderTransform>
+            <Grid.Resources>
+                <Style x:Key="ToastDisc" TargetType="Border">
+                    <Setter Property="Background" Value="{DynamicResource Success.SoftBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ToastTone}" Value="{x:Static models:Tone.Warning}">
+                            <Setter Property="Background" Value="{DynamicResource Warning.SoftBrush}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ToastTone}" Value="{x:Static models:Tone.Danger}">
+                            <Setter Property="Background" Value="{DynamicResource Danger.SoftBrush}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ToastTone}" Value="{x:Static models:Tone.Accent}">
+                            <Setter Property="Background" Value="{DynamicResource Accent.SoftBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="ToastIcon" TargetType="Path">
+                    <Setter Property="Data" Value="{icons:Phosphor CheckCircleFill}" />
+                    <Setter Property="Fill" Value="{DynamicResource Success.TextBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ToastTone}" Value="{x:Static models:Tone.Warning}">
+                            <Setter Property="Data" Value="{icons:Phosphor WarningFill}" />
+                            <Setter Property="Fill" Value="{DynamicResource Warning.TextBrush}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ToastTone}" Value="{x:Static models:Tone.Danger}">
+                            <Setter Property="Data" Value="{icons:Phosphor XCircleFill}" />
+                            <Setter Property="Fill" Value="{DynamicResource Danger.TextBrush}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ToastTone}" Value="{x:Static models:Tone.Accent}">
+                            <Setter Property="Data" Value="{icons:Phosphor InfoFill}" />
+                            <Setter Property="Fill" Value="{DynamicResource Accent.TextBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ScreenshotNotification, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" Value="Visible">
+                        <DataTrigger Binding="{Binding IsToastVisible}" Value="True">
                             <Setter Property="Visibility" Value="Visible" />
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
@@ -104,14 +138,28 @@
                 </Style>
             </Grid.Style>
             <Border Style="{StaticResource ToastShadow}" />
-            <Border Padding="14,12" Style="{StaticResource ToastCard}">
+            <Border Padding="14,12,10,12" Style="{StaticResource ToastCard}">
                 <DockPanel>
-                    <Border Width="34" Height="34" Margin="0,0,12,0" Background="{DynamicResource Success.SoftBrush}" CornerRadius="17" DockPanel.Dock="Left">
-                        <Path Width="16" Height="16" Data="{icons:Phosphor CameraBold}" Fill="{DynamicResource Success.TextBrush}" Stretch="Uniform" />
+                    <Button Margin="8,0,0,0"
+                            VerticalAlignment="Top"
+                            hc:IconElement.Geometry="{icons:Phosphor XBold}"
+                            hc:IconElement.Height="10"
+                            hc:IconElement.Width="10"
+                            Command="{Binding DismissToastCommand}"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource Action.Icon.Small}"
+                            ToolTip="{Binding Loc[Close]}" />
+                    <Border Width="34" Height="34" Margin="0,0,12,0" VerticalAlignment="Top" CornerRadius="17" DockPanel.Dock="Left" Style="{StaticResource ToastDisc}">
+                        <Path Width="16" Height="16" Stretch="Uniform" Style="{StaticResource ToastIcon}" />
                     </Border>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding ScreenshotNotification}" TextTrimming="CharacterEllipsis" />
-                        <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}" Text="{Binding LastScreenshotPath}" />
+                        <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding ToastTitle}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Margin="0,2,0,0"
+                                   Style="{StaticResource CaptionText}"
+                                   Text="{Binding ToastMessage}"
+                                   TextTrimming="None"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding ToastMessage, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
                     </StackPanel>
                 </DockPanel>
             </Border>
