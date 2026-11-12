@@ -44,6 +44,7 @@ public class AppSettings
 
     // Appearance & Personalization
     public string AccentColor { get; set; } = "#3778BF"; // Blue (default)
+    public string Theme { get; set; } = "Dark"; // Dark or Light
     public bool CompactMode { get; set; } = false;
 
     // Security & Pairing

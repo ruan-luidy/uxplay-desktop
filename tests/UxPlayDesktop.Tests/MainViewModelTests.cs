@@ -281,6 +281,23 @@ public class MainViewModelTests
     }
 
     [Fact]
+    public void MainViewModel_LightTheme_IsSavedInSettings()
+    {
+        _settingsService.CurrentSettings.AutoStartServer = false;
+        var vm = new MainViewModel(_settingsService, _processManager, _bonjourService, _autostartService);
+        Assert.True(vm.IsDarkTheme);
+
+        vm.IsLightTheme = true;
+
+        Assert.False(vm.IsDarkTheme);
+        Assert.Equal("Light", _settingsService.CurrentSettings.Theme);
+
+        vm.IsDarkTheme = true;
+
+        Assert.Equal("Dark", _settingsService.CurrentSettings.Theme);
+    }
+
+    [Fact]
     public void MainViewModel_SelectedDisplay_IsOneOfTheAvailableDisplays()
     {
         _settingsService.CurrentSettings.AutoStartServer = false;

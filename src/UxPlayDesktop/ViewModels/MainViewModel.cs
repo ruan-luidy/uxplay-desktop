@@ -309,6 +309,28 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    public bool IsLightTheme
+    {
+        get => string.Equals(Settings.Theme, "Light", StringComparison.OrdinalIgnoreCase);
+        set
+        {
+            if (IsLightTheme != value)
+            {
+                Settings.Theme = value ? "Light" : "Dark";
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsDarkTheme));
+                ThemeService.Apply(dark: !value);
+                SaveSettings();
+            }
+        }
+    }
+
+    public bool IsDarkTheme
+    {
+        get => !IsLightTheme;
+        set => IsLightTheme = !value;
+    }
+
     public IReadOnlyList<string> AvailableAccentColors { get; } =
     [
         "#3778BF", // Blue

@@ -279,6 +279,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Errors",
             ["DiagnosticRepair"] = "Repair network, Bonjour and firewall",
             ["Close"] = "Close",
+            ["ThemeLabel"] = "Theme",
+            ["ThemeDark"] = "Dark",
+            ["ThemeLight"] = "Light",
         };
 
         // 2. SPANISH (Español)
@@ -436,6 +439,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Errores",
             ["DiagnosticRepair"] = "Reparar red, Bonjour y firewall",
             ["Close"] = "Cerrar",
+            ["ThemeLabel"] = "Tema",
+            ["ThemeDark"] = "Oscuro",
+            ["ThemeLight"] = "Claro",
         };
 
         // 3. FRENCH (Français)
@@ -569,6 +575,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Erreurs",
             ["DiagnosticRepair"] = "Réparer le réseau, Bonjour et le pare-feu",
             ["Close"] = "Fermer",
+            ["ThemeLabel"] = "Thème",
+            ["ThemeDark"] = "Sombre",
+            ["ThemeLight"] = "Clair",
         };
 
         // 4. GERMAN (Deutsch)
@@ -702,6 +711,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Fehler",
             ["DiagnosticRepair"] = "Netzwerk, Bonjour und Firewall reparieren",
             ["Close"] = "Schließen",
+            ["ThemeLabel"] = "Design",
+            ["ThemeDark"] = "Dunkel",
+            ["ThemeLight"] = "Hell",
         };
 
         // 5. ITALIAN (Italiano)
@@ -835,6 +847,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Errori",
             ["DiagnosticRepair"] = "Ripara rete, Bonjour e firewall",
             ["Close"] = "Chiudi",
+            ["ThemeLabel"] = "Tema",
+            ["ThemeDark"] = "Scuro",
+            ["ThemeLight"] = "Chiaro",
         };
 
         // 6. PORTUGUESE (Brasil & América)
@@ -968,6 +983,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Erros",
             ["DiagnosticRepair"] = "Reparar rede, Bonjour e firewall",
             ["Close"] = "Fechar",
+            ["ThemeLabel"] = "Tema",
+            ["ThemeDark"] = "Escuro",
+            ["ThemeLight"] = "Claro",
         };
         _translations["pt-PT"] = _translations["pt-BR"];
 
@@ -1102,6 +1120,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Ошибки",
             ["DiagnosticRepair"] = "Исправить сеть, Bonjour и брандмауэр",
             ["Close"] = "Закрыть",
+            ["ThemeLabel"] = "Тема",
+            ["ThemeDark"] = "Тёмная",
+            ["ThemeLight"] = "Светлая",
         };
 
         // 8. CHINESE (Simplified - 简体中文)
@@ -1235,6 +1256,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "错误",
             ["DiagnosticRepair"] = "修复网络、Bonjour 和防火墙",
             ["Close"] = "关闭",
+            ["ThemeLabel"] = "主题",
+            ["ThemeDark"] = "深色",
+            ["ThemeLight"] = "浅色",
         };
 
         // 9. JAPANESE (日本語)
@@ -1368,6 +1392,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "エラー",
             ["DiagnosticRepair"] = "ネットワーク、Bonjour、ファイアウォールを修復",
             ["Close"] = "閉じる",
+            ["ThemeLabel"] = "テーマ",
+            ["ThemeDark"] = "ダーク",
+            ["ThemeLight"] = "ライト",
         };
 
         // 10. POLISH, DUTCH, UKRAINIAN, SWEDISH, KOREAN aliases & definitions
@@ -1428,6 +1455,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Błędy",
             ["DiagnosticRepair"] = "Napraw sieć, Bonjour i zaporę",
             ["Close"] = "Zamknij",
+            ["ThemeLabel"] = "Motyw",
+            ["ThemeDark"] = "Ciemny",
+            ["ThemeLight"] = "Jasny",
         };
 
         _translations["nl"] = new Dictionary<string, string>(_translations["en"])
@@ -1487,6 +1517,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Fouten",
             ["DiagnosticRepair"] = "Netwerk, Bonjour en firewall herstellen",
             ["Close"] = "Sluiten",
+            ["ThemeLabel"] = "Thema",
+            ["ThemeDark"] = "Donker",
+            ["ThemeLight"] = "Licht",
         };
 
         _translations["uk"] = new Dictionary<string, string>(_translations["ru"])
@@ -1546,6 +1579,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Помилки",
             ["DiagnosticRepair"] = "Виправити мережу, Bonjour і брандмауер",
             ["Close"] = "Закрити",
+            ["ThemeLabel"] = "Тема",
+            ["ThemeDark"] = "Темна",
+            ["ThemeLight"] = "Світла",
         };
 
         _translations["sv"] = new Dictionary<string, string>(_translations["en"])
@@ -1600,6 +1636,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "Fel",
             ["DiagnosticRepair"] = "Reparera nätverk, Bonjour och brandvägg",
             ["Close"] = "Stäng",
+            ["ThemeLabel"] = "Tema",
+            ["ThemeDark"] = "Mörkt",
+            ["ThemeLight"] = "Ljust",
         };
 
         _translations["ko"] = new Dictionary<string, string>(_translations["ja"])
@@ -1658,6 +1697,9 @@ public class LocalizationService : ILocalizationService
             ["LogsFilterErrors"] = "오류",
             ["DiagnosticRepair"] = "네트워크, Bonjour 및 방화벽 복구",
             ["Close"] = "닫기",
+            ["ThemeLabel"] = "테마",
+            ["ThemeDark"] = "어둡게",
+            ["ThemeLight"] = "밝게",
         };
     }
 }

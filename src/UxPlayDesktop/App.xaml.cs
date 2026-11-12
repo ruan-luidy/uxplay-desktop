@@ -43,9 +43,9 @@ public partial class App : Application
         }
 
         base.OnStartup(e);
-        ThemeService.Apply(dark: true);
 
         var settingsService = new SettingsService();
+        ThemeService.Apply(dark: !string.Equals(settingsService.CurrentSettings.Theme, "Light", StringComparison.OrdinalIgnoreCase));
         var argumentBuilder = new ArgumentBuilder();
         var logParser = new LogParser();
         var processManager = new CoreProcessManager(argumentBuilder, logParser);

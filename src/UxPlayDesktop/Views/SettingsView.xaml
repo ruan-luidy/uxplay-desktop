@@ -146,6 +146,28 @@
                 <Border Style="{StaticResource SettingGroup}">
                     <StackPanel>
                         <DockPanel Style="{StaticResource SettingRow}">
+                            <Border VerticalAlignment="Center" DockPanel.Dock="Right" Style="{StaticResource SegmentGroup}">
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton GroupName="Theme" IsChecked="{Binding IsDarkTheme}" Style="{StaticResource SegmentRadio}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Path Width="12" Height="12" Margin="0,0,6,0" Data="{icons:Phosphor MoonBold}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Stretch="Uniform" />
+                                            <TextBlock Text="{Binding Loc[ThemeDark]}" />
+                                        </StackPanel>
+                                    </RadioButton>
+                                    <RadioButton GroupName="Theme" IsChecked="{Binding IsLightTheme}" Style="{StaticResource SegmentRadio}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Path Width="12" Height="12" Margin="0,0,6,0" Data="{icons:Phosphor SunBold}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Stretch="Uniform" />
+                                            <TextBlock Text="{Binding Loc[ThemeLight]}" />
+                                        </StackPanel>
+                                    </RadioButton>
+                                </StackPanel>
+                            </Border>
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[ThemeLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
                             <ListBox VerticalAlignment="Center"
                                      DockPanel.Dock="Right"
                                      ItemsSource="{Binding AvailableAccentColors}"

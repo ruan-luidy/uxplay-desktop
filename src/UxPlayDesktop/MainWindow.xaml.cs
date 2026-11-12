@@ -16,6 +16,7 @@ public partial class MainWindow : HandyControl.Controls.Window
     {
         InitializeComponent();
         ApplyBackdrop();
+        ThemeService.Changed += OnThemeChanged;
         Loaded += OnLoaded;
     }
 
@@ -32,6 +33,24 @@ public partial class MainWindow : HandyControl.Controls.Window
         }
 
         SetResourceReference(BackgroundProperty, "Window.FallbackBrush");
+    }
+
+    // HandyControl only sets the dark title bar and Mica tint when the backdrop is applied, so follow theme changes here
+    private void OnThemeChanged(object? sender, EventArgs e)
+    {
+        if (SystemBackdropType != BackdropType.Mica)
+        {
+            return;
+        }
+
+        if (ThemeService.IsDark)
+        {
+            this.ApplyDarkMode();
+        }
+        else
+        {
+            this.RemoveDarkMode();
+        }
     }
 
     public void InitializeTray()
@@ -75,6 +94,7 @@ public partial class MainWindow : HandyControl.Controls.Window
             vmCleanup.DisposeHotkeys();
         }
 
+        ThemeService.Changed -= OnThemeChanged;
         _trayService?.Dispose();
         base.OnClosing(e);
     }
