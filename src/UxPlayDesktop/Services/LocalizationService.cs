@@ -270,6 +270,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "Open UxPlay Desktop",
             ["TrayExit"] = "Exit",
+            ["BonjourStatusEmbedded"] = "Built-in mDNS",
+            ["VideoLabel"] = "VIDEO",
         };
 
         // 2. SPANISH (Español)
@@ -418,6 +420,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Inhibición nativa de suspensión de pantalla de Windows para evitar apagados durante clases",
             ["TrayRestore"] = "Abrir UxPlay Desktop",
             ["TrayExit"] = "Salir",
+            ["BonjourStatusEmbedded"] = "mDNS integrado",
+            ["VideoLabel"] = "VÍDEO",
         };
 
         // 3. FRENCH (Français)
@@ -542,6 +546,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Inhibiteur de veille Windows pour éviter l'extinction d'écran",
             ["TrayRestore"] = "Ouvrir UxPlay Desktop",
             ["TrayExit"] = "Quitter",
+            ["BonjourStatusEmbedded"] = "mDNS intégré",
+            ["VideoLabel"] = "VIDÉO",
         };
 
         // 4. GERMAN (Deutsch)
@@ -666,6 +672,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows-Energieanforderungs-Inhibitor gegen Standby",
             ["TrayRestore"] = "UxPlay Desktop Öffnen",
             ["TrayExit"] = "Beenden",
+            ["BonjourStatusEmbedded"] = "Integriertes mDNS",
+            ["VideoLabel"] = "VIDEO",
         };
 
         // 5. ITALIAN (Italiano)
@@ -790,6 +798,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "Apri UxPlay Desktop",
             ["TrayExit"] = "Esci",
+            ["BonjourStatusEmbedded"] = "mDNS integrato",
+            ["VideoLabel"] = "VIDEO",
         };
 
         // 6. PORTUGUESE (Brasil & América)
@@ -914,6 +924,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "Abrir UxPlay Desktop",
             ["TrayExit"] = "Sair",
+            ["BonjourStatusEmbedded"] = "mDNS integrado",
+            ["VideoLabel"] = "VÍDEO",
         };
         _translations["pt-PT"] = _translations["pt-BR"];
 
@@ -1039,6 +1051,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "Открыть UxPlay Desktop",
             ["TrayExit"] = "Выход",
+            ["BonjourStatusEmbedded"] = "Встроенный mDNS",
+            ["VideoLabel"] = "ВИДЕО",
         };
 
         // 8. CHINESE (Simplified - 简体中文)
@@ -1163,6 +1177,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "打开 UxPlay Desktop",
             ["TrayExit"] = "退出",
+            ["BonjourStatusEmbedded"] = "内置 mDNS",
+            ["VideoLabel"] = "视频",
         };
 
         // 9. JAPANESE (日本語)
@@ -1287,6 +1303,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "UxPlay Desktop を開く",
             ["TrayExit"] = "終了",
+            ["BonjourStatusEmbedded"] = "内蔵 mDNS",
+            ["VideoLabel"] = "ビデオ",
         };
 
         // 10. POLISH, DUTCH, UKRAINIAN, SWEDISH, KOREAN aliases & definitions
@@ -1338,6 +1356,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "Otwórz UxPlay Desktop",
             ["TrayExit"] = "Wyjdź",
+            ["BonjourStatusEmbedded"] = "Wbudowany mDNS",
+            ["VideoLabel"] = "WIDEO",
         };
 
         _translations["nl"] = new Dictionary<string, string>(_translations["en"])
@@ -1388,6 +1408,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "UxPlay Desktop Openen",
             ["TrayExit"] = "Afsluiten",
+            ["BonjourStatusEmbedded"] = "Ingebouwde mDNS",
+            ["VideoLabel"] = "VIDEO",
         };
 
         _translations["uk"] = new Dictionary<string, string>(_translations["ru"])
@@ -1438,6 +1460,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "Відкрити UxPlay Desktop",
             ["TrayExit"] = "Вийти",
+            ["BonjourStatusEmbedded"] = "Вбудований mDNS",
+            ["VideoLabel"] = "ВІДЕО",
         };
 
         _translations["sv"] = new Dictionary<string, string>(_translations["en"])
@@ -1483,6 +1507,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "Öppna UxPlay Desktop",
             ["TrayExit"] = "Avsluta",
+            ["BonjourStatusEmbedded"] = "Inbyggd mDNS",
+            ["VideoLabel"] = "VIDEO",
         };
 
         _translations["ko"] = new Dictionary<string, string>(_translations["ja"])
@@ -1532,6 +1558,8 @@ public class LocalizationService : ILocalizationService
             ["AboutBullet4"] = "• Windows power request display inhibitor to prevent sleep during lectures",
             ["TrayRestore"] = "UxPlay Desktop 열기",
             ["TrayExit"] = "종료",
+            ["BonjourStatusEmbedded"] = "내장 mDNS",
+            ["VideoLabel"] = "비디오",
         };
     }
 }

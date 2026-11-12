@@ -3,332 +3,376 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:controls="clr-namespace:UxPlayDesktop.Controls"
+             xmlns:icons="clr-namespace:UxPlayDesktop.Icons"
              xmlns:models="clr-namespace:UxPlayDesktop.Models"
              xmlns:vm="clr-namespace:UxPlayDesktop.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <!-- The status card: a soft wash of the status colour coming in from the left -->
+        <Style x:Key="StatusWash" TargetType="Border">
+            <Setter Property="CornerRadius" Value="{StaticResource Radius.Card}" />
+            <Setter Property="Background" Value="{DynamicResource Neutral.SoftBrush}" />
+            <Setter Property="OpacityMask">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="Black" />
+                        <GradientStop Offset="0.6" Color="Transparent" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Accent}">
+                    <Setter Property="Background" Value="{DynamicResource Accent.SoftBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Success}">
+                    <Setter Property="Background" Value="{DynamicResource Success.SoftBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Warning}">
+                    <Setter Property="Background" Value="{DynamicResource Warning.SoftBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Danger}">
+                    <Setter Property="Background" Value="{DynamicResource Danger.SoftBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StatusTile" TargetType="Border">
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="48" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Background" Value="{DynamicResource Neutral.SoftBrush}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Accent}">
+                    <Setter Property="Background" Value="{DynamicResource Accent.SoftBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Success}">
+                    <Setter Property="Background" Value="{DynamicResource Success.SoftBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Warning}">
+                    <Setter Property="Background" Value="{DynamicResource Warning.SoftBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Danger}">
+                    <Setter Property="Background" Value="{DynamicResource Danger.SoftBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StatusIcon" TargetType="Path">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Stretch" Value="Uniform" />
+            <Setter Property="Data" Value="{icons:Phosphor PowerBold}" />
+            <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ServerState}" Value="{x:Static models:ServerState.Listening}">
+                    <Setter Property="Data" Value="{icons:Phosphor BroadcastBold}" />
+                    <Setter Property="Fill" Value="{DynamicResource Accent.TextBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ServerState}" Value="{x:Static models:ServerState.Streaming}">
+                    <Setter Property="Data" Value="{icons:Phosphor ScreencastFill}" />
+                    <Setter Property="Fill" Value="{DynamicResource Success.TextBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ServerState}" Value="{x:Static models:ServerState.Error}">
+                    <Setter Property="Data" Value="{icons:Phosphor WarningCircleFill}" />
+                    <Setter Property="Fill" Value="{DynamicResource Danger.TextBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StatIcon" TargetType="Path" BasedOn="{StaticResource IconTileGlyph}" />
+
+        <Style x:Key="StepNumber" TargetType="Border">
+            <Setter Property="Width" Value="22" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Margin" Value="0,0,12,0" />
+            <Setter Property="CornerRadius" Value="11" />
+            <Setter Property="Background" Value="{DynamicResource Accent.SoftBrush}" />
+            <Setter Property="DockPanel.Dock" Value="Left" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource Accent.TextBrush}" />
+            <Setter Property="TextElement.FontSize" Value="{StaticResource FontSize.Sm}" />
+            <Setter Property="TextElement.FontWeight" Value="SemiBold" />
+        </Style>
+    </UserControl.Resources>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="0,10,0,0">
+        <StackPanel Margin="0,0,0,8">
 
-            <!-- UPDATE AVAILABLE BANNER -->
-            <Border Style="{StaticResource CardStyle}"
-                    Background="#1A334D"
-                    BorderBrush="#2196F3"
-                    Margin="0,0,0,16"
-                    Visibility="{Binding IsUpdateAvailable, Converter={x:Static models:ObjectToVisibilityConverter.Instance}, FallbackValue=Collapsed}">
+            <!-- Header: the name Apple devices see, the address they reach, and the quick actions -->
+            <DockPanel Margin="0,0,0,16">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Margin="0,0,8,0"
+                            hc:IconElement.Geometry="{icons:Phosphor CameraBold}"
+                            Command="{Binding CaptureScreenshotCommand}"
+                            Style="{StaticResource Action.Icon}"
+                            ToolTip="{Binding Loc[ScreenshotButton]}" />
+                    <Button Margin="0,0,8,0"
+                            hc:IconElement.Geometry="{icons:Phosphor FolderOpenBold}"
+                            Command="{Binding OpenRecordingsFolderCommand}"
+                            Style="{StaticResource Action.Icon}"
+                            ToolTip="{Binding Loc[OpenRecordings]}" />
+                    <Button Margin="0,0,8,0"
+                            hc:IconElement.Geometry="{icons:Phosphor PictureInPictureBold}"
+                            Command="{Binding ToggleCompactModeCommand}"
+                            Style="{StaticResource Action.Icon}"
+                            ToolTip="{Binding Loc[CompactModeLabel]}" />
+                    <Button hc:IconElement.Geometry="{icons:Phosphor RecordBold}"
+                            Command="{Binding ToggleRecordingCommand}"
+                            Content="{Binding Loc[RecordButton]}"
+                            Style="{StaticResource Action}"
+                            ToolTip="{Binding Loc[RecordingTitle]}"
+                            Visibility="{Binding IsRecording, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}" />
+                    <Button hc:IconElement.Geometry="{icons:Phosphor StopFill}"
+                            Background="{DynamicResource Danger.SoftBrush}"
+                            Command="{Binding ToggleRecordingCommand}"
+                            Content="{Binding Loc[StopRecordButton]}"
+                            Foreground="{DynamicResource Danger.TextBrush}"
+                            Style="{StaticResource Action}"
+                            ToolTip="{Binding Loc[RecordingTitle]}"
+                            Visibility="{Binding IsRecording, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource PageTitle}" Text="{Binding Settings.ServerName}" />
+                    <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}">
+                        <Run Text="{Binding Loc[LocalIpLabel], Mode=OneWay}" /><Run Text=": " /><Run FontFamily="{StaticResource FontFamily.Numbers}" Text="{Binding LocalNetworkInfo, Mode=OneWay}" />
+                    </TextBlock>
+                </StackPanel>
+            </DockPanel>
+
+            <!-- Update available -->
+            <Border Margin="0,0,0,12"
+                    Style="{StaticResource InfoBanner}"
+                    Visibility="{Binding IsUpdateAvailable, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
                 <Grid>
-                    <!-- State 1: When NOT updating -->
-                    <Grid Visibility="{Binding IsUpdating, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🚀 " FontSize="14" />
-                                <TextBlock Text="{Binding Loc[UpdateAvailableTitle]}" FontWeight="Bold" FontSize="14" Foreground="#90CAF9" />
-                                <TextBlock Text="{Binding UpdateVersionText, StringFormat=' ({0})'}" FontWeight="Bold" FontSize="14" Foreground="White" />
-                            </StackPanel>
-                            <TextBlock Text="{Binding Loc[UpdateAvailableDesc]}" Foreground="#E3F2FD" FontSize="12" Margin="0,4,0,0" />
+                    <DockPanel Visibility="{Binding IsUpdating, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}">
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Margin="0,0,8,0" Command="{Binding DismissUpdateCommand}" Content="{Binding Loc[UpdateLater]}" Style="{StaticResource Action}" />
+                            <Button hc:IconElement.Geometry="{icons:Phosphor DownloadSimpleBold}" Command="{Binding ApplyUpdateCommand}" Content="{Binding Loc[UpdateNow]}" Style="{StaticResource Action.Primary}" />
                         </StackPanel>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Content="{Binding Loc[UpdateNow]}" Command="{Binding ApplyUpdateCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,8,0" />
-                            <Button Content="{Binding Loc[UpdateLater]}" Command="{Binding DismissUpdateCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                        <Path Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center" Data="{icons:Phosphor ArrowCircleUpFill}" DockPanel.Dock="Left" Fill="{DynamicResource Accent.TextBrush}" Stretch="Uniform" />
+                        <StackPanel Margin="0,0,16,0" VerticalAlignment="Center">
+                            <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}">
+                                <Run Text="{Binding Loc[UpdateAvailableTitle], Mode=OneWay}" /><Run Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding UpdateVersionText, Mode=OneWay, StringFormat='  {0}'}" />
+                            </TextBlock>
+                            <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}" Text="{Binding Loc[UpdateAvailableDesc]}" TextTrimming="None" TextWrapping="Wrap" />
                         </StackPanel>
-                    </Grid>
+                    </DockPanel>
 
-                    <!-- State 2: When actively downloading update -->
-                    <Grid Visibility="{Binding IsUpdating, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="⏳ " FontSize="14" />
-                                <TextBlock Text="{Binding Loc[DownloadingUpdate]}" FontWeight="Bold" FontSize="14" Foreground="#90CAF9" />
-                                <TextBlock Text="{Binding UpdateProgress, StringFormat=' ({0}%)'}" FontWeight="Bold" FontSize="14" Foreground="#FFD54F" Margin="6,0,0,0" />
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" Text="{Binding Loc[PleaseWait]}" FontSize="12" Foreground="#90CAF9" VerticalAlignment="Center" />
-                        </Grid>
-                        <ProgressBar Grid.Row="1"
-                                     Value="{Binding UpdateProgress}"
-                                     Minimum="0"
-                                     Maximum="100"
-                                     Height="8"
-                                     Margin="0,10,0,0"
-                                     Background="#0F2840"
-                                     Foreground="#38BDF8"
-                                     BorderThickness="0" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- SCREENSHOT TOAST NOTIFICATION -->
-            <Border Background="#166534" BorderBrush="#22C55E" BorderThickness="1" CornerRadius="6" Padding="14,10" Margin="0,0,0,16"
-                    Visibility="{Binding ScreenshotNotification, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="📸 " FontSize="15" />
-                        <TextBlock Text="{Binding ScreenshotNotification}" FontWeight="Bold" Foreground="#86EFAC" FontSize="12" />
+                    <StackPanel Visibility="{Binding IsUpdating, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Right" FontFamily="{StaticResource FontFamily.Numbers}" Foreground="{DynamicResource Accent.TextBrush}" Text="{Binding UpdateProgress, StringFormat='{}{0}%'}" />
+                            <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}">
+                                <Run Text="{Binding Loc[DownloadingUpdate], Mode=OneWay}" /><Run Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding Loc[PleaseWait], Mode=OneWay, StringFormat='  {0}'}" />
+                            </TextBlock>
+                        </DockPanel>
+                        <ProgressBar Margin="0,10,0,0" Maximum="100" Value="{Binding UpdateProgress, Mode=OneWay}" />
                     </StackPanel>
-                    <Button Grid.Column="1" Command="{Binding OpenRecordingsFolderCommand}" Style="{StaticResource SecondaryButtonStyle}" Content="{Binding Loc[OpenRecordings]}" Padding="10,5" FontSize="11" />
                 </Grid>
             </Border>
 
-            <!-- PIN CODE PROMPT MODAL BANNER -->
-            <Border Style="{StaticResource CardStyle}"
-                    Background="#2E1C0C"
-                    BorderBrush="#E65100"
-                    Margin="0,0,0,16"
-                    Visibility="{Binding ActivePinCode, Converter={x:Static models:ObjectToVisibilityConverter.Instance}, FallbackValue=Collapsed}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="{Binding Loc[PinRequestedTitle]}" FontWeight="Bold" FontSize="14" Foreground="#FFB74D" />
-                        <TextBlock Text="{Binding Loc[PinRequestedDesc]}" Foreground="#FFE082" FontSize="12" Margin="0,4,0,8" />
-                        <Border Background="#1A0E04" CornerRadius="6" Padding="12,6" HorizontalAlignment="Left" BorderBrush="#FF9800" BorderThickness="1">
-                            <TextBlock Text="{Binding ActivePinCode}" FontSize="24" FontWeight="Bold" Foreground="#FFD54F" />
-                        </Border>
+            <!-- Pairing PIN requested by the Apple device -->
+            <Border Margin="0,0,0,12"
+                    Style="{StaticResource WarningBanner}"
+                    Visibility="{Binding ActivePinCode, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" VerticalAlignment="Center" Command="{Binding DismissPinCommand}" Content="{Binding Loc[PinDismiss]}" Style="{StaticResource Action}" />
+                    <Path Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center" Data="{icons:Phosphor LockKeyFill}" DockPanel.Dock="Left" Fill="{DynamicResource Warning.TextBrush}" Stretch="Uniform" />
+                    <TextBlock Margin="16,0,24,0" VerticalAlignment="Center" DockPanel.Dock="Right" FontFamily="{StaticResource FontFamily.Numbers}" FontSize="{StaticResource FontSize.Display}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding ActivePinCode}" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Loc[PinRequestedTitle]}" />
+                        <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}" Text="{Binding Loc[PinRequestedDesc]}" TextTrimming="None" TextWrapping="Wrap" />
                     </StackPanel>
-                    <Button Grid.Column="1" Command="{Binding DismissPinCommand}" Style="{StaticResource SecondaryButtonStyle}" Content="{Binding Loc[PinDismiss]}" VerticalAlignment="Top" />
-                </Grid>
+                </DockPanel>
             </Border>
 
-            <!-- QUICK 3-STEP AIRPLAY GUIDE -->
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" Text="{Binding Loc[AirPlayGuideTitle]}" FontSize="14" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,12" />
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Step 1 -->
-                        <Border Grid.Column="0" Background="#0F172A" CornerRadius="6" Padding="12,10" Margin="0,0,8,0">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Loc[Step1Title]}" FontSize="10" FontWeight="Bold" Foreground="#94A3B8" Margin="0,0,0,4" />
-                                <TextBlock Text="{Binding Loc[Step1Desc]}" FontSize="12" Foreground="White" TextWrapping="Wrap" />
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Step 2 -->
-                        <Border Grid.Column="1" Background="#0F172A" CornerRadius="6" Padding="12,10" Margin="0,0,8,0">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Loc[Step2Title]}" FontSize="10" FontWeight="Bold" Foreground="#94A3B8" Margin="0,0,0,4" />
-                                <TextBlock Text="{Binding Loc[Step2Desc]}" FontSize="12" Foreground="White" TextWrapping="Wrap" />
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Step 3 -->
-                        <Border Grid.Column="2" Background="#0F172A" CornerRadius="6" Padding="12,10">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Loc[Step3Title]}" FontSize="10" FontWeight="Bold" Foreground="#94A3B8" Margin="0,0,0,4" />
-                                <TextBlock Text="{Binding DisplayStep3Desc}" FontSize="12" Foreground="{DynamicResource PrimaryBrush}" FontWeight="SemiBold" TextWrapping="Wrap" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- ACTIVE STREAM & DEVICE HUD -->
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <!-- HUD Header -->
-                    <Grid Grid.Row="0" Margin="0,0,0,14">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Loc[MetricsTitle]}" FontSize="15" FontWeight="SemiBold" Foreground="White" />
-                            <Border Background="#1A3320" CornerRadius="4" Padding="6,2" Margin="10,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Loc[ActiveHud]}" FontSize="10" Foreground="#25D366" FontWeight="Bold" />
-                            </Border>
-                        </StackPanel>
-
-                        <!-- Recording status badge if recording -->
-                        <Border Grid.Column="1" Background="#7F1D1D" CornerRadius="4" Padding="8,3"
-                                Visibility="{Binding IsRecording, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
-                            <StackPanel Orientation="Horizontal">
-                                <Ellipse Width="8" Height="8" Fill="#EF4444" Margin="0,0,6,0" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding Loc[RecordingActive]}" FontSize="10" Foreground="#FCA5A5" FontWeight="Bold" />
-                            </StackPanel>
-                        </Border>
+            <!-- Server status and the main action -->
+            <Grid>
+                <Border Background="{DynamicResource Card.BackgroundBrush}" CornerRadius="{StaticResource Radius.Card}" />
+                <Border Style="{StaticResource StatusWash}" />
+                <DockPanel Margin="18,16">
+                    <Grid MinWidth="200" VerticalAlignment="Center" DockPanel.Dock="Right">
+                        <Button HorizontalAlignment="Stretch"
+                                hc:IconElement.Geometry="{icons:Phosphor PlayFill}"
+                                Command="{Binding ToggleServerCommand}"
+                                Content="{Binding Loc[StartServer]}"
+                                Style="{StaticResource Action.Primary}"
+                                Visibility="{Binding IsServerRunning, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}" />
+                        <Button HorizontalAlignment="Stretch"
+                                hc:IconElement.Geometry="{icons:Phosphor StopFill}"
+                                Command="{Binding ToggleServerCommand}"
+                                Content="{Binding Loc[StopServer]}"
+                                Style="{StaticResource Action}"
+                                Visibility="{Binding IsServerRunning, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
                     </Grid>
 
-                    <!-- HUD 4 Metric Cards -->
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Device Name -->
-                        <Border Grid.Column="0" Background="#1D1D1D" CornerRadius="6" Padding="12" Margin="0,0,8,0">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Loc[ConnectedDevice]}" FontSize="10" Foreground="{StaticResource TextMutedBrush}" FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding DisplayClientName}" FontSize="15" FontWeight="Bold" Foreground="White" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
-                                <TextBlock Text="{Binding DisplayClientIp}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,2,0,0" />
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Resolution -->
-                        <Border Grid.Column="1" Background="#1D1D1D" CornerRadius="6" Padding="12" Margin="0,0,8,0">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Loc[Resolution]}" FontSize="10" Foreground="{StaticResource TextMutedBrush}" FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding Session.ActiveResolution}" FontSize="15" FontWeight="Bold" Foreground="White" Margin="0,4,0,0" />
-                                <TextBlock Text="{Binding Loc[HardwareAccelerated]}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,2,0,0" />
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Codec & FPS -->
-                        <Border Grid.Column="2" Background="#1D1D1D" CornerRadius="6" Padding="12" Margin="0,0,8,0">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Loc[Framerate]}" FontSize="10" Foreground="{StaticResource TextMutedBrush}" FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding Session.ActiveCodec}" FontSize="15" FontWeight="Bold" Foreground="White" Margin="0,4,0,0" />
-                                <TextBlock Text="{Binding DisplayTargetFps}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,2,0,0" />
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Duration -->
-                        <Border Grid.Column="3" Background="#1D1D1D" CornerRadius="6" Padding="12">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Loc[StreamTime]}" FontSize="10" Foreground="{StaticResource TextMutedBrush}" FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding FormattedDuration}" FontSize="15" FontWeight="Bold" Foreground="White" Margin="0,4,0,0" />
-                                <TextBlock Text="{Binding SessionActiveText}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,2,0,0" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <!-- HUD Interactive Quick Controls (Volume Slider & Mute) -->
-                    <Border Grid.Row="2" Background="#161E2E" CornerRadius="6" Padding="12,8" Margin="0,12,0,0">
+                    <Border Margin="0,0,16,0" VerticalAlignment="Center" DockPanel.Dock="Left" Style="{StaticResource StatusTile}">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Left: Mute toggle & volume label -->
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Button Command="{Binding ToggleMuteCommand}" Style="{StaticResource SecondaryButtonStyle}" Padding="8,4" Margin="0,0,8,0">
-                                    <TextBlock Text="{Binding IsMuted, Converter={x:Static models:BoolToMuteIconConverter.Instance}}" FontSize="13" />
-                                </Button>
-                                <TextBlock Text="{Binding Loc[VolumeLabel]}" FontSize="12" Foreground="#94A3B8" VerticalAlignment="Center" Margin="0,0,4,0" />
-                                <TextBlock Text="{Binding VolumeDisplay}" FontSize="12" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
-                            </StackPanel>
-
-                            <!-- Center: Volume Slider -->
-                            <Slider Grid.Column="1" Value="{Binding AudioVolume}" Minimum="0" Maximum="1" Margin="16,0" VerticalAlignment="Center" />
-
-                            <!-- Right: Quick folder open & screenshot -->
-                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Button Command="{Binding CaptureScreenshotCommand}" Style="{StaticResource SecondaryButtonStyle}" Padding="10,5" Margin="0,0,6,0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="📸 " FontSize="11" />
-                                        <TextBlock Text="{Binding Loc[ScreenshotButton]}" FontSize="11" FontWeight="SemiBold" />
-                                    </StackPanel>
-                                </Button>
-                                <Button Command="{Binding OpenRecordingsFolderCommand}" Style="{StaticResource SecondaryButtonStyle}" Padding="10,5">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="📂 " FontSize="11" />
-                                        <TextBlock Text="{Binding Loc[OpenRecordings]}" FontSize="11" FontWeight="SemiBold" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
+                            <Path Style="{StaticResource StatusIcon}" />
+                            <hc:CircleProgressBar Width="22"
+                                                  Height="22"
+                                                  ArcThickness="2"
+                                                  IsIndeterminate="True"
+                                                  ShowText="False"
+                                                  Visibility="{Binding IsBusy, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
                         </Grid>
                     </Border>
-                </Grid>
-            </Border>
 
-            <!-- STREAMING PRESET SELECTOR -->
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+                    <StackPanel Margin="0,0,16,0" VerticalAlignment="Center">
+                        <TextBlock FontSize="{StaticResource FontSize.Lg}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding StatusTitle}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Margin="0,3,0,0" Style="{StaticResource CaptionText}" Text="{Binding StatusDescription}" TextTrimming="None" TextWrapping="Wrap" />
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+
+            <!-- Live numbers -->
+            <UniformGrid Margin="0,12,-10,0" Columns="4" Rows="1">
+                <Border Style="{StaticResource StatCard}">
+                    <StackPanel>
+                        <DockPanel>
+                            <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}">
+                                <Path Data="{icons:Phosphor DeviceTabletSpeakerBold}" Style="{StaticResource StatIcon}" />
+                            </Border>
+                            <TextBlock Style="{StaticResource StatLabel}" Text="{Binding Loc[ConnectedDevice]}" />
+                        </DockPanel>
+                        <TextBlock FontFamily="{StaticResource FontFamily.Default}" FontSize="{StaticResource FontSize.Lg}" Style="{StaticResource StatValue}" Text="{Binding DisplayClientName}" />
+                        <TextBlock Style="{StaticResource CaptionText}" Text="{Binding DisplayClientIp}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCard}">
+                    <StackPanel>
+                        <DockPanel>
+                            <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}">
+                                <Path Data="{icons:Phosphor MonitorBold}" Style="{StaticResource StatIcon}" />
+                            </Border>
+                            <TextBlock Style="{StaticResource StatLabel}" Text="{Binding Loc[Resolution]}" />
+                        </DockPanel>
+                        <TextBlock Style="{StaticResource StatValue}" Text="{Binding Session.ActiveResolution}" />
+                        <TextBlock Style="{StaticResource CaptionText}" Text="{Binding Loc[HardwareAccelerated]}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCard}">
+                    <StackPanel>
+                        <DockPanel>
+                            <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}">
+                                <Path Data="{icons:Phosphor FilmStripBold}" Style="{StaticResource StatIcon}" />
+                            </Border>
+                            <TextBlock Style="{StaticResource StatLabel}" Text="{Binding Loc[VideoLabel]}" />
+                        </DockPanel>
+                        <TextBlock Style="{StaticResource StatValue}" Text="{Binding Session.ActiveCodec}" />
+                        <TextBlock Style="{StaticResource CaptionText}" Text="{Binding DisplayTargetFps}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCard}">
+                    <StackPanel>
+                        <DockPanel>
+                            <Border DockPanel.Dock="Left" Style="{StaticResource IconTile}">
+                                <Path Data="{icons:Phosphor TimerBold}" Style="{StaticResource StatIcon}" />
+                            </Border>
+                            <TextBlock Style="{StaticResource StatLabel}" Text="{Binding Loc[StreamTime]}" />
+                        </DockPanel>
+                        <TextBlock Style="{StaticResource StatValue}" Text="{Binding FormattedDuration}" />
+                        <TextBlock Style="{StaticResource CaptionText}" Text="{Binding SessionActiveText}" />
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- How to connect, while nothing is mirroring -->
+            <StackPanel Visibility="{Binding IsStreaming, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}">
+                <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[AirPlayGuideTitle]}" />
+                <Border Style="{StaticResource InfoCard}">
+                    <StackPanel>
+                        <DockPanel Style="{StaticResource InfoRow}">
+                            <Border Style="{StaticResource StepNumber}">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="1" />
+                            </Border>
+                            <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Loc[Step1Desc]}" TextWrapping="Wrap" />
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource InfoRow}">
+                            <Border Style="{StaticResource StepNumber}">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="2" />
+                            </Border>
+                            <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Loc[Step2Desc]}" TextWrapping="Wrap" />
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource InfoRow}">
+                            <Border Style="{StaticResource StepNumber}">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="3" />
+                            </Border>
+                            <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding DisplayStep3Desc}" TextWrapping="Wrap" />
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Playback: the streaming profile and the volume -->
+            <Border Margin="0,20,0,0" Style="{StaticResource SettingGroup}">
                 <StackPanel>
-                    <TextBlock Text="{Binding Loc[PresetTitle]}" FontSize="15" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,6" />
-                    <TextBlock Text="{Binding Loc[PresetSubtitle]}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" Margin="0,0,0,12" />
-
-                    <ComboBox ItemsSource="{Binding PresetOptions}"
-                              SelectedItem="{Binding SelectedPresetOption}"
-                              Margin="0,0,0,10">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding DisplayName}" Foreground="White" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-
-                    <Border Background="#1C1C1C" CornerRadius="6" Padding="12">
-                        <TextBlock Text="{Binding PresetDescription}" Foreground="#C5C5C5" FontSize="12" TextWrapping="Wrap" />
-                    </Border>
+                    <DockPanel Style="{StaticResource SettingRow}">
+                        <ComboBox Width="320"
+                                  ItemsSource="{Binding PresetOptions}"
+                                  SelectedItem="{Binding SelectedPresetOption}"
+                                  DockPanel.Dock="Right"
+                                  VerticalAlignment="Center">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplayName}" TextTrimming="CharacterEllipsis" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <StackPanel Style="{StaticResource SettingText}">
+                            <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[PresetTitle]}" />
+                            <TextBlock Style="{StaticResource SettingCaption}" Text="{Binding PresetDescription}" />
+                        </StackPanel>
+                    </DockPanel>
+                    <Border Style="{StaticResource InfoDivider}" />
+                    <DockPanel Style="{StaticResource SettingRow}">
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Width="56" Margin="0,0,12,0" VerticalAlignment="Center" FontFamily="{StaticResource FontFamily.Numbers}" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding VolumeDisplay}" TextAlignment="Right" TextTrimming="CharacterEllipsis" />
+                            <Slider Width="200" Margin="0,0,12,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding AudioVolume}" />
+                            <ToggleButton hc:IconElement.Geometry="{icons:Phosphor SpeakerHighBold}"
+                                          hc:IconSwitchElement.GeometrySelected="{icons:Phosphor SpeakerSlashBold}"
+                                          IsChecked="{Binding IsMuted}"
+                                          Style="{StaticResource Action.Toggle.Icon}"
+                                          ToolTip="{Binding MuteButtonText}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SettingText}">
+                            <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[VolumeLabel]}" />
+                        </StackPanel>
+                    </DockPanel>
                 </StackPanel>
             </Border>
 
-            <!-- DISCOVERY & BONJOUR STATUS & NETWORK DIAGNOSTIC -->
-            <Border Style="{StaticResource CardStyle}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Loc[BonjourTitle]}" FontSize="14" FontWeight="SemiBold" Foreground="White" />
-                        <TextBlock Text="{Binding Loc[BonjourDesc]}" Foreground="{StaticResource TextMutedBrush}" FontSize="11" Margin="0,4,0,0" />
-                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                            <TextBlock Text="🌐 " FontSize="12" />
-                            <TextBlock Text="{Binding Loc[LocalIpLabel], StringFormat='{}{0}: '}" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8" />
-                            <TextBlock Text="{Binding LocalNetworkInfo}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" />
+            <!-- Discovery on the local network -->
+            <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[BonjourTitle]}" />
+            <Border Style="{StaticResource SettingGroup}">
+                <StackPanel>
+                    <DockPanel Style="{StaticResource SettingRow}">
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                            <controls:Chip Margin="0,0,12,0" Content="{Binding BonjourStatusText}" Tone="{Binding BonjourTone}" />
+                            <Button hc:IconElement.Geometry="{icons:Phosphor WrenchBold}" Command="{Binding FixBonjourCommand}" Content="{Binding Loc[RepairBonjour]}" Style="{StaticResource Action}" />
                         </StackPanel>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                        <!-- Network Diagnostic Assistant -->
-                        <Button Command="{Binding RunDiagnosticCommand}"
-                                Style="{StaticResource SecondaryButtonStyle}"
-                                Margin="0,0,8,0"
-                                VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🩺 " FontSize="12" />
-                                <TextBlock Text="{Binding Loc[DiagnosticButton]}" />
-                            </StackPanel>
-                        </Button>
-
-                        <!-- Repair Bonjour -->
-                        <Button Command="{Binding FixBonjourCommand}"
-                                Style="{StaticResource SecondaryButtonStyle}"
-                                Content="{Binding Loc[RepairBonjour]}"
-                                VerticalAlignment="Center" />
-                    </StackPanel>
-                </Grid>
+                        <StackPanel Style="{StaticResource SettingText}">
+                            <TextBlock Style="{StaticResource SettingTitle}" Text="Bonjour (mDNS)" />
+                            <TextBlock Style="{StaticResource SettingCaption}" Text="{Binding Loc[BonjourDesc]}" />
+                        </StackPanel>
+                    </DockPanel>
+                    <Border Style="{StaticResource InfoDivider}" />
+                    <DockPanel Style="{StaticResource SettingRow}">
+                        <Button VerticalAlignment="Center" hc:IconElement.Geometry="{icons:Phosphor StethoscopeBold}" Command="{Binding RunDiagnosticCommand}" Content="{Binding Loc[DiagnosticButton]}" DockPanel.Dock="Right" Style="{StaticResource Action}" />
+                        <StackPanel Style="{StaticResource SettingText}">
+                            <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[DiagnosticTitle]}" />
+                            <TextBlock Style="{StaticResource SettingCaption}" Text="{Binding Loc[DiagnosticSubtitle]}" />
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
             </Border>
 
         </StackPanel>

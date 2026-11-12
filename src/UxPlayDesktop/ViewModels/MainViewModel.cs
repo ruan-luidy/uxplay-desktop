@@ -27,7 +27,6 @@ public class MainViewModel : ViewModelBase
     private string? _activePinCode;
     private string _formattedDuration = "00:00:00";
     private BonjourStatus _bonjourStatus;
-    private string _bonjourStatusText = "Checking...";
 
     private UpdateInfo? _latestUpdate;
     private bool _isUpdateAvailable;
@@ -454,14 +453,29 @@ public class MainViewModel : ViewModelBase
     public BonjourStatus BonjourStatus
     {
         get => _bonjourStatus;
-        private set => SetField(ref _bonjourStatus, value);
+        private set
+        {
+            if (SetField(ref _bonjourStatus, value))
+            {
+                OnPropertyChanged(nameof(BonjourStatusText));
+                OnPropertyChanged(nameof(BonjourTone));
+            }
+        }
     }
 
-    public string BonjourStatusText
+    public string BonjourStatusText => BonjourStatus switch
     {
-        get => _bonjourStatusText;
-        private set => SetField(ref _bonjourStatusText, value);
-    }
+        BonjourStatus.Running => Loc["BonjourStatusActive"],
+        BonjourStatus.InstalledNotRunning => Loc["BonjourStatusStopped"],
+        _ => Loc["BonjourStatusEmbedded"]
+    };
+
+    public Tone BonjourTone => BonjourStatus switch
+    {
+        BonjourStatus.Running => Tone.Success,
+        BonjourStatus.InstalledNotRunning => Tone.Warning,
+        _ => Tone.Neutral
+    };
 
     private PresetOption _selectedPresetOption = null!;
     public PresetOption SelectedPresetOption
@@ -616,6 +630,7 @@ public class MainViewModel : ViewModelBase
             OnPropertyChanged(nameof(VolumeDisplay));
             OnPropertyChanged(nameof(MuteButtonText));
             OnPropertyChanged(nameof(SessionActiveText));
+            OnPropertyChanged(nameof(BonjourStatusText));
         };
 
         _processManager.StateChanged += state => RunOnUi(() => ServerState = state);
@@ -788,13 +803,6 @@ public class MainViewModel : ViewModelBase
     private void CheckBonjourStatus()
     {
         BonjourStatus = _bonjourService.CheckStatus();
-        BonjourStatusText = BonjourStatus switch
-        {
-            BonjourStatus.Running => "Bonjour Service active",
-            BonjourStatus.InstalledNotRunning => "Bonjour stopped (click to start)",
-            BonjourStatus.NotInstalled => "Using embedded mDNS discovery",
-            _ => "Discovery Ready"
-        };
     }
 
     private void OnSessionUpdated()
