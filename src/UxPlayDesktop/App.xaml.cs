@@ -43,6 +43,7 @@ public partial class App : Application
         }
 
         base.OnStartup(e);
+        ThemeService.Apply(dark: true);
 
         var settingsService = new SettingsService();
         var argumentBuilder = new ArgumentBuilder();

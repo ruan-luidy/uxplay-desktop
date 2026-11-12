@@ -40,6 +40,7 @@ public class MainViewModel : ViewModelBase
     private NetworkDiagnosticReport? _diagnosticReport;
     private string? _lastScreenshotPath;
     private string? _screenshotNotification;
+    private AppPage _selectedPage = AppPage.Dashboard;
 
     public AppSettings Settings
     {
@@ -59,6 +60,9 @@ public class MainViewModel : ViewModelBase
                 OnPropertyChanged(nameof(StatusSubtitle));
                 OnPropertyChanged(nameof(StatusDescription));
                 OnPropertyChanged(nameof(StatusColor));
+                OnPropertyChanged(nameof(StatusTone));
+                OnPropertyChanged(nameof(IsStreaming));
+                OnPropertyChanged(nameof(IsBusy));
                 OnPropertyChanged(nameof(IsServerRunning));
                 OnPropertyChanged(nameof(StartStopButtonText));
                 OnPropertyChanged(nameof(StartStopButtonIcon));
@@ -117,6 +121,14 @@ public class MainViewModel : ViewModelBase
     }
 
     public bool IsServerRunning => ServerState is ServerState.Listening or ServerState.Connecting or ServerState.Streaming;
+    public bool IsStreaming => ServerState == ServerState.Streaming;
+    public bool IsBusy => ServerState is ServerState.Starting or ServerState.Connecting or ServerState.Stopping;
+
+    public AppPage SelectedPage
+    {
+        get => _selectedPage;
+        set => SetField(ref _selectedPage, value);
+    }
 
     public string StartStopButtonText => IsServerRunning ? Loc["StopServer"] : Loc["StartServer"];
     public string StartStopButtonIcon => IsServerRunning ? "⏹" : "▶";
@@ -416,6 +428,15 @@ public class MainViewModel : ViewModelBase
         ServerState.Starting => "#0DCAF0",    // Cyan
         ServerState.Error => "#DC3545",       // Red
         _ => "#6C757D"                        // Gray
+    };
+
+    public Tone StatusTone => ServerState switch
+    {
+        ServerState.Streaming => Tone.Success,
+        ServerState.Listening => Tone.Accent,
+        ServerState.Error => Tone.Danger,
+        ServerState.Starting or ServerState.Connecting => Tone.Warning,
+        _ => Tone.Neutral
     };
 
     public string FormattedDuration
@@ -882,18 +903,7 @@ public class MainViewModel : ViewModelBase
 
     public static void ApplyAccentColor(string hex)
     {
-        try
-        {
-            var color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(hex);
-            var brush = new System.Windows.Media.SolidColorBrush(color);
-            brush.Freeze();
-            if (Application.Current != null)
-            {
-                Application.Current.Resources["AccentBrush"] = brush;
-                Application.Current.Resources["PrimaryBrush"] = brush;
-            }
-        }
-        catch { }
+        ThemeService.SetAccent(hex);
     }
 
     private static void RunOnUi(Action action)

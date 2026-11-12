@@ -1,12 +1,13 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using HandyControl.Tools;
 using UxPlayDesktop.Services;
 using UxPlayDesktop.ViewModels;
 
 namespace UxPlayDesktop;
 
-public partial class MainWindow : Window
+public partial class MainWindow : HandyControl.Controls.Window
 {
     private ITrayIconService? _trayService;
     private bool _isExplicitExit = false;
@@ -14,7 +15,23 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ApplyBackdrop();
         Loaded += OnLoaded;
+    }
+
+    /// <summary>
+    /// Mica on Windows 11: the side pane sits right on the backdrop and the pages are a translucent layer over it.
+    /// Without Mica (Windows 10) the window falls back to a solid background.
+    /// </summary>
+    private void ApplyBackdrop()
+    {
+        if (BackdropType.Mica.IsSupported())
+        {
+            SystemBackdropType = BackdropType.Mica;
+            return;
+        }
+
+        SetResourceReference(BackgroundProperty, "Window.FallbackBrush");
     }
 
     public void InitializeTray()
@@ -32,20 +49,6 @@ public partial class MainWindow : Window
         if (DataContext is MainViewModel vm)
         {
             vm.InitializeHotkeys(this);
-
-            vm.Logs.Logs.CollectionChanged += (s, args) =>
-            {
-                if (args.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add && vm.Logs.AutoScroll)
-                {
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        if (LogsListView.Items.Count > 0)
-                        {
-                            LogsListView.ScrollIntoView(LogsListView.Items[^1]);
-                        }
-                    });
-                }
-            };
         }
     }
 
@@ -83,19 +86,5 @@ public partial class MainWindow : Window
         {
             ShowInTaskbar = true;
         }
-    }
-
-    private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-    {
-        try
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = e.Uri.AbsoluteUri,
-                UseShellExecute = true
-            });
-        }
-        catch { }
-        e.Handled = true;
     }
 }

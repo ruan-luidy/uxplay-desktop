@@ -114,3 +114,25 @@ public class SeverityToIconConverter : IValueConverter
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => throw new NotSupportedException();
 }
+
+/// <summary>True when the value equals the parameter; checking a radio button sets the value back to its parameter.</summary>
+public class EnumToBooleanConverter : IValueConverter
+{
+    public static readonly EnumToBooleanConverter Instance = new();
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => Equals(value, parameter);
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        value is true && parameter != null ? parameter : Binding.DoNothing;
+}
+
+/// <summary>Visible when the value equals the parameter.</summary>
+public class EnumToVisibilityConverter : IValueConverter
+{
+    public static readonly EnumToVisibilityConverter Instance = new();
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        Equals(value, parameter) ? Visibility.Visible : Visibility.Collapsed;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => throw new NotSupportedException();
+}

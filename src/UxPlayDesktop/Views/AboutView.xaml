@@ -1,0 +1,37 @@
+<UserControl x:Class="UxPlayDesktop.Views.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:UxPlayDesktop.Models"
+             xmlns:vm="clr-namespace:UxPlayDesktop.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+             mc:Ignorable="d">
+
+    <Border Style="{StaticResource CardStyle}" Margin="0,10,0,0">
+        <StackPanel>
+            <TextBlock Text="UxPlay Desktop for Windows" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,6" />
+            <TextBlock Text="{Binding Loc[AboutSubtitle]}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" Margin="0,0,0,16" />
+
+            <TextBlock Text="{Binding Loc[AboutDesc]}" Foreground="#CCCCCC" TextWrapping="Wrap" Margin="0,0,0,16" />
+
+            <TextBlock Text="{Binding Loc[AboutArchTitle]}" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,4" />
+            <TextBlock Text="{Binding Loc[AboutBullet1]}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,2" />
+            <TextBlock Text="{Binding Loc[AboutBullet2]}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,2" />
+            <TextBlock Text="{Binding Loc[AboutBullet3]}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,2" />
+            <TextBlock Text="{Binding Loc[AboutBullet4]}" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,16" />
+
+            <TextBlock Text="{Binding Loc[AboutAuthor]}" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,4" />
+            <TextBlock Margin="0,0,0,4">
+                <Run Text="GitHub: " Foreground="{StaticResource TextSecondaryBrush}" />
+                <Hyperlink NavigateUri="https://github.com/jorjanion/uxplay-desktop"
+                           RequestNavigate="Hyperlink_RequestNavigate"
+                           Foreground="{DynamicResource PrimaryBrush}"
+                           Cursor="Hand">
+                    https://github.com/jorjanion/uxplay-desktop
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Text="License: GNU General Public License v3.0 (GPL-3.0)" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,16" />
+        </StackPanel>
+    </Border>
+</UserControl>
