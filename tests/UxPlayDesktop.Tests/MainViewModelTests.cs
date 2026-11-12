@@ -279,4 +279,29 @@ public class MainViewModelTests
         Assert.False(vm.IsCompactMode);
         Assert.Equal(740, vm.WindowHeight);
     }
+
+    [Fact]
+    public void MainViewModel_SelectedDisplay_IsOneOfTheAvailableDisplays()
+    {
+        _settingsService.CurrentSettings.AutoStartServer = false;
+        _settingsService.CurrentSettings.TargetDisplayIndex = 1;
+        var vm = new MainViewModel(_settingsService, _processManager, _bonjourService, _autostartService, windowService: new MockWindowService());
+
+        Assert.NotNull(vm.SelectedDisplay);
+        Assert.Contains(vm.SelectedDisplay, vm.AvailableDisplays);
+        Assert.Equal(1, vm.SelectedDisplay!.Index);
+    }
+}
+
+public class MockWindowService : IWindowManagementService
+{
+    public IReadOnlyList<DisplayInfo> GetConnectedDisplays() =>
+    [
+        new DisplayInfo { Index = 0, Name = "DISPLAY1", Width = 1920, Height = 1080, IsPrimary = true },
+        new DisplayInfo { Index = 1, Name = "DISPLAY2", Width = 2560, Height = 1440 }
+    ];
+
+    public void SetAlwaysOnTop(bool enable, IntPtr? targetHwnd = null) { }
+    public string? CaptureScreenshot(string? outputDirectory = null) => null;
+    public void MoveVideoWindowToDisplay(int displayIndex) { }
 }

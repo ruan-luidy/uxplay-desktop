@@ -40,6 +40,7 @@ public class MainViewModel : ViewModelBase
     private string? _lastScreenshotPath;
     private string? _screenshotNotification;
     private AppPage _selectedPage = AppPage.Dashboard;
+    private IReadOnlyList<DisplayInfo>? _availableDisplays;
 
     public AppSettings Settings
     {
@@ -373,7 +374,8 @@ public class MainViewModel : ViewModelBase
         set => SetField(ref _windowMinHeight, value);
     }
 
-    public IReadOnlyList<DisplayInfo> AvailableDisplays => _windowService.GetConnectedDisplays();
+    // Enumerated once: a fresh list on every read never contains the selected instance, and the picker shows empty
+    public IReadOnlyList<DisplayInfo> AvailableDisplays => _availableDisplays ??= _windowService.GetConnectedDisplays();
 
     public DisplayInfo? SelectedDisplay
     {
