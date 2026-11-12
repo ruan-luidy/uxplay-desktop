@@ -43,7 +43,7 @@ public class AppSettings
     public bool EnableGlobalHotkeys { get; set; } = true;
 
     // Appearance & Personalization
-    public string AccentColor { get; set; } = "#38BDF8"; // Sky Blue (default)
+    public string AccentColor { get; set; } = "#3778BF"; // Blue (default)
     public bool CompactMode { get; set; } = false;
 
     // Security & Pairing

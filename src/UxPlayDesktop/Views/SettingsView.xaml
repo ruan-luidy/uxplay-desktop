@@ -3,225 +3,294 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:models="clr-namespace:UxPlayDesktop.Models"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:icons="clr-namespace:UxPlayDesktop.Icons"
              xmlns:vm="clr-namespace:UxPlayDesktop.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
              mc:Ignorable="d">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="0,10,0,0">
+    <!--
+        One card per section, one row per option: the title (and what it does) on the left and the control
+        on the right. Switches replace check boxes; text fields are short and sized to what they hold.
+    -->
+    <UserControl.Resources>
+        <Style x:Key="RowSwitch" TargetType="ToggleButton" BasedOn="{StaticResource Switch}">
+            <Setter Property="Margin" Value="16,0,0,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="DockPanel.Dock" Value="Right" />
+        </Style>
+        <Style x:Key="RowField" TargetType="TextBox" BasedOn="{StaticResource Field}">
+            <Setter Property="Width" Value="220" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="DockPanel.Dock" Value="Right" />
+        </Style>
+        <Style x:Key="RowNumber" TargetType="TextBox" BasedOn="{StaticResource RowField}">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily.Numbers}" />
+            <Setter Property="TextAlignment" Value="Right" />
+        </Style>
+        <Style x:Key="RowCombo" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="Width" Value="220" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="DockPanel.Dock" Value="Right" />
+        </Style>
+    </UserControl.Resources>
 
-            <!-- General Settings -->
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
-                <StackPanel>
-                    <TextBlock Text="{Binding Loc[GeneralSettings]}" FontSize="15" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,12" />
-
-                    <TextBlock Text="{Binding Loc[LanguageLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                    <ComboBox ItemsSource="{Binding Loc.SupportedLanguages}"
-                              SelectedItem="{Binding SelectedLanguage}"
-                              Height="36"
-                              Margin="0,0,0,12">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Flag}" Margin="0,0,6,0" FontSize="14" />
-                                    <TextBlock Text="{Binding NativeName}" Foreground="White" FontSize="12" />
-                                    <TextBlock Text="{Binding DisplayName, StringFormat=' ({0})'}" Foreground="#888888" FontSize="11" Margin="4,0,0,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-
-                    <TextBlock Text="{Binding Loc[ServerNameLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                    <TextBox Text="{Binding Settings.ServerName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
-
-                    <!-- Monitor Selector -->
-                    <TextBlock Text="{Binding Loc[TargetDisplayLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                    <ComboBox ItemsSource="{Binding AvailableDisplays}"
-                              SelectedItem="{Binding SelectedDisplay}"
-                              DisplayMemberPath="DisplayLabel"
-                              Margin="0,0,0,12" />
-
-                    <!-- Checkboxes -->
-                    <CheckBox Content="{Binding Loc[StartWithWindowsLabel]}" IsChecked="{Binding StartOnBoot}" Margin="0,0,0,6" />
-                    <CheckBox Content="{Binding Loc[StartMinimizedLabel]}" IsChecked="{Binding StartMinimized}" Margin="20,0,0,8" />
-                    <CheckBox Content="{Binding Loc[MinimizeToTrayLabel]}" IsChecked="{Binding Settings.MinimizeToTray}" Margin="0,0,0,8" />
-                    <CheckBox Content="{Binding Loc[AlwaysOnTopLabel]}" IsChecked="{Binding AlwaysOnTop}" Margin="0,0,0,8" />
-                    <CheckBox Content="{Binding Loc[HotkeysLabel]}" IsChecked="{Binding EnableGlobalHotkeys}" Margin="0,0,8,0" />
-                    <TextBlock Text="{Binding Loc[HotkeysHelp]}" FontSize="11" Foreground="#94A3B8" Margin="24,2,0,8" TextWrapping="Wrap" />
-                    <CheckBox Content="{Binding Loc[AutoStartServerLabel]}" IsChecked="{Binding Settings.AutoStartServer}" Margin="0,0,0,8" />
-                    <CheckBox Content="{Binding Loc[InhibitSleepLabel]}" IsChecked="{Binding Settings.InhibitSleepAndScreensaver}" Margin="0,0,0,8" />
-                    <CheckBox Content="{Binding Loc[EnableBleLabel]}" IsChecked="{Binding Settings.EnableBluetoothBeacon}" Margin="0,0,0,4" />
-                </StackPanel>
-            </Border>
-
-            <!-- Personalization & Accent Theme Colors -->
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
-                <StackPanel>
-                    <TextBlock Text="{Binding Loc[AccentColorLabel]}" FontSize="15" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,12" />
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                        <Button Command="{Binding SetAccentColorCommand}" CommandParameter="#38BDF8" Width="32" Height="32" Margin="0,0,10,0" Cursor="Hand" Background="#38BDF8">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="White" BorderThickness="2" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                        <Button Command="{Binding SetAccentColorCommand}" CommandParameter="#A855F7" Width="32" Height="32" Margin="0,0,10,0" Cursor="Hand" Background="#A855F7">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="White" BorderThickness="2" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                        <Button Command="{Binding SetAccentColorCommand}" CommandParameter="#22C55E" Width="32" Height="32" Margin="0,0,10,0" Cursor="Hand" Background="#22C55E">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="White" BorderThickness="2" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                        <Button Command="{Binding SetAccentColorCommand}" CommandParameter="#F59E0B" Width="32" Height="32" Margin="0,0,10,0" Cursor="Hand" Background="#F59E0B">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="White" BorderThickness="2" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                        <Button Command="{Binding SetAccentColorCommand}" CommandParameter="#F43F5E" Width="32" Height="32" Margin="0,0,10,0" Cursor="Hand" Background="#F43F5E">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="White" BorderThickness="2" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
-
-                    <!-- Folder Locations & Actions -->
-                    <Grid Margin="0,6,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Command="{Binding OpenRecordingsFolderCommand}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="📂 " />
-                                <TextBlock Text="{Binding Loc[OpenRecordings]}" />
-                            </StackPanel>
-                        </Button>
-                        <Button Grid.Column="1" Command="{Binding CaptureScreenshotCommand}" Style="{StaticResource SecondaryButtonStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="📸 " />
-                                <TextBlock Text="{Binding Loc[ScreenshotButton]}" />
-                            </StackPanel>
-                        </Button>
-                    </Grid>
-                </StackPanel>
-            </Border>
-
-            <!-- Video Settings -->
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
-                <StackPanel>
-                    <TextBlock Text="{Binding Loc[DisplayVideoSettings]}" FontSize="15" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,12" />
-
-                    <Grid Margin="0,0,0,12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                            <TextBlock Text="{Binding Loc[TargetWidthLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                            <TextBox Text="{Binding Settings.DisplayWidth}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="{Binding Loc[TargetHeightLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                            <TextBox Text="{Binding Settings.DisplayHeight}" />
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid Margin="0,0,0,12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                            <TextBlock Text="{Binding Loc[FramerateLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                            <TextBox Text="{Binding Settings.TargetFps}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="{Binding Loc[VideoSinkLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                            <TextBox Text="{Binding Settings.VideoSink}" />
-                        </StackPanel>
-                    </Grid>
-
-                    <CheckBox Content="{Binding Loc[EnableH265Label]}" IsChecked="{Binding Settings.EnableH265}" Margin="0,0,0,8" />
-                    <CheckBox Content="{Binding Loc[ForceFullscreenLabel]}" IsChecked="{Binding Settings.ForceFullscreen}" Margin="0,0,0,8" />
-                    <CheckBox Content="{Binding Loc[BorderlessLabel]}" IsChecked="{Binding Settings.BorderlessWindow}" Margin="0,0,0,4" />
-                </StackPanel>
-            </Border>
-
-            <!-- Audio Settings -->
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
-                <StackPanel>
-                    <TextBlock Text="{Binding Loc[AudioSettings]}" FontSize="15" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,12" />
-
-                    <CheckBox Content="{Binding Loc[EnableAudioLabel]}" IsChecked="{Binding Settings.EnableAudio}" Margin="0,0,0,10" />
-
-                    <!-- Audio Volume Slider -->
-                    <Grid Margin="0,0,0,12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                                <TextBlock Text="{Binding Loc[VolumeLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
-                                <TextBlock Text="{Binding VolumeDisplay, StringFormat=': {0}'}" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" Margin="4,0,0,0" />
-                            </StackPanel>
-                            <Slider Value="{Binding AudioVolume}" Minimum="0" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="False" />
-                        </StackPanel>
-                        <Button Grid.Column="1" Command="{Binding ToggleMuteCommand}" Style="{StaticResource SecondaryButtonStyle}" Margin="12,0,0,0" VerticalAlignment="Bottom" Padding="12,8">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding IsMuted, Converter={x:Static models:BoolToMuteIconConverter.Instance}}" Margin="0,0,6,0" FontSize="13" />
-                                <TextBlock Text="{Binding MuteButtonText}" FontWeight="SemiBold" />
-                            </StackPanel>
-                        </Button>
-                    </Grid>
-
-                    <TextBlock Text="{Binding Loc[AudioDelayLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                    <TextBox Text="{Binding Settings.AudioDelayMs}" Margin="0,0,0,12" />
-
-                    <TextBlock Text="{Binding Loc[AudioSinkLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                    <TextBox Text="{Binding Settings.AudioSink}" Margin="0,0,0,4" />
-                </StackPanel>
-            </Border>
-
-            <!-- Security & Pairing -->
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
-                <StackPanel>
-                    <TextBlock Text="{Binding Loc[SecuritySettings]}" FontSize="15" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,12" />
-
-                    <CheckBox Content="{Binding Loc[RequirePinLabel]}" IsChecked="{Binding Settings.RequirePin}" Margin="0,0,0,10" />
-
-                    <TextBlock Text="{Binding Loc[FixedPinLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                    <TextBox Text="{Binding Settings.FixedPin}" MaxLength="4" Margin="0,0,0,12" />
-
-                    <TextBlock Text="{Binding Loc[PasswordLabel]}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                    <TextBox Text="{Binding Settings.Password}" Margin="0,0,0,4" />
-                </StackPanel>
-            </Border>
-
-            <!-- Save Settings Button -->
-            <Button Command="{Binding SaveSettingsCommand}"
-                    Style="{StaticResource PrimaryButtonStyle}"
+    <DockPanel>
+        <DockPanel Margin="0,0,0,4" DockPanel.Dock="Top">
+            <Button VerticalAlignment="Center"
+                    hc:IconElement.Geometry="{icons:Phosphor FloppyDiskBold}"
+                    Command="{Binding SaveSettingsCommand}"
                     Content="{Binding Loc[SaveSettings]}"
-                    HorizontalAlignment="Left"
-                    Margin="0,0,0,24" />
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource Action.Primary}" />
+            <TextBlock VerticalAlignment="Center" Style="{StaticResource PageTitle}" Text="{Binding Loc[TabSettings]}" />
+        </DockPanel>
 
-        </StackPanel>
-    </ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,0,16">
+
+                <!-- General -->
+                <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[GeneralSettings]}" />
+                <Border Style="{StaticResource SettingGroup}">
+                    <StackPanel>
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ComboBox ItemsSource="{Binding Loc.SupportedLanguages}" SelectedItem="{Binding SelectedLanguage}" Style="{StaticResource RowCombo}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextTrimming="CharacterEllipsis">
+                                            <Run Text="{Binding NativeName, Mode=OneWay}" /><Run Foreground="{DynamicResource MutedTextBrush}" Text="{Binding DisplayName, Mode=OneWay, StringFormat='  {0}'}" />
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[LanguageLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <TextBox Style="{StaticResource RowField}" Text="{Binding Settings.ServerName, UpdateSourceTrigger=PropertyChanged}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[ServerNameLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ComboBox DisplayMemberPath="DisplayLabel" ItemsSource="{Binding AvailableDisplays}" SelectedItem="{Binding SelectedDisplay}" Style="{StaticResource RowCombo}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[TargetDisplayLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Startup and window behaviour -->
+                <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[StartupSettings]}" />
+                <Border Style="{StaticResource SettingGroup}">
+                    <StackPanel>
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding StartOnBoot}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[StartWithWindowsLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding StartMinimized}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[StartMinimizedLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding Settings.MinimizeToTray}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[MinimizeToTrayLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding AlwaysOnTop}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[AlwaysOnTopLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding Settings.AutoStartServer}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[AutoStartServerLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding Settings.InhibitSleepAndScreensaver}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[InhibitSleepLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding EnableGlobalHotkeys}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[HotkeysLabel]}" />
+                                <TextBlock Style="{StaticResource SettingCaption}" Text="{Binding Loc[HotkeysHelp]}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Appearance -->
+                <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[AppearanceSettings]}" />
+                <Border Style="{StaticResource SettingGroup}">
+                    <StackPanel>
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ListBox VerticalAlignment="Center"
+                                     DockPanel.Dock="Right"
+                                     ItemsSource="{Binding AvailableAccentColors}"
+                                     SelectedItem="{Binding AccentColor}"
+                                     Style="{StaticResource ColorSwatches}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[AccentColorLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Display and video -->
+                <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[DisplayVideoSettings]}" />
+                <Border Style="{StaticResource SettingGroup}">
+                    <StackPanel>
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right" Orientation="Horizontal">
+                                <TextBox Style="{StaticResource RowNumber}" Text="{Binding Settings.DisplayWidth}" ToolTip="{Binding Loc[TargetWidthLabel]}" />
+                                <TextBlock Margin="8,0" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryTextBrush}" Text="×" />
+                                <TextBox Style="{StaticResource RowNumber}" Text="{Binding Settings.DisplayHeight}" ToolTip="{Binding Loc[TargetHeightLabel]}" />
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[ResolutionLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <TextBox Style="{StaticResource RowNumber}" Text="{Binding Settings.TargetFps}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[FramerateLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <TextBox FontFamily="{StaticResource FontFamily.Numbers}" Style="{StaticResource RowField}" Text="{Binding Settings.VideoSink}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[VideoSinkLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding Settings.EnableH265}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[EnableH265Label]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding Settings.ForceFullscreen}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[ForceFullscreenLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding Settings.BorderlessWindow}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[BorderlessLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Audio -->
+                <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[AudioSettings]}" />
+                <Border Style="{StaticResource SettingGroup}">
+                    <StackPanel>
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding Settings.EnableAudio}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[EnableAudioLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right" Orientation="Horizontal">
+                                <TextBlock Width="56" Margin="0,0,12,0" VerticalAlignment="Center" FontFamily="{StaticResource FontFamily.Numbers}" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding VolumeDisplay}" TextAlignment="Right" TextTrimming="CharacterEllipsis" />
+                                <Slider Width="200" Margin="0,0,12,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding AudioVolume}" />
+                                <ToggleButton hc:IconElement.Geometry="{icons:Phosphor SpeakerHighBold}"
+                                              hc:IconSwitchElement.GeometrySelected="{icons:Phosphor SpeakerSlashBold}"
+                                              IsChecked="{Binding IsMuted}"
+                                              Style="{StaticResource Action.Toggle.Icon}"
+                                              ToolTip="{Binding MuteButtonText}" />
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[VolumeLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <TextBox Style="{StaticResource RowNumber}" Text="{Binding Settings.AudioDelayMs}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[AudioDelayLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <TextBox FontFamily="{StaticResource FontFamily.Numbers}" Style="{StaticResource RowField}" Text="{Binding Settings.AudioSink}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[AudioSinkLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Security and pairing -->
+                <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[SecuritySettings]}" />
+                <Border Style="{StaticResource SettingGroup}">
+                    <StackPanel>
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <ToggleButton IsChecked="{Binding Settings.RequirePin}" Style="{StaticResource RowSwitch}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[RequirePinLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <TextBox MaxLength="4" Style="{StaticResource RowNumber}" Text="{Binding Settings.FixedPin}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[FixedPinLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                        <Border Style="{StaticResource InfoDivider}" />
+                        <DockPanel Style="{StaticResource SettingRow}">
+                            <TextBox Style="{StaticResource RowField}" Text="{Binding Settings.Password}" />
+                            <StackPanel Style="{StaticResource SettingText}">
+                                <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[PasswordLabel]}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Discovery -->
+                <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[BonjourTitle]}" />
+                <Border Style="{StaticResource SettingGroup}">
+                    <DockPanel Style="{StaticResource SettingRow}">
+                        <ToggleButton IsChecked="{Binding Settings.EnableBluetoothBeacon}" Style="{StaticResource RowSwitch}" />
+                        <StackPanel Style="{StaticResource SettingText}">
+                            <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[EnableBleLabel]}" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>

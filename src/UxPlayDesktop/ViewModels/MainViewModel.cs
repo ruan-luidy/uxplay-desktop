@@ -288,7 +288,7 @@ public class MainViewModel : ViewModelBase
 
     public string AccentColor
     {
-        get => string.IsNullOrWhiteSpace(Settings.AccentColor) ? "#38BDF8" : Settings.AccentColor;
+        get => string.IsNullOrWhiteSpace(Settings.AccentColor) ? "#3778BF" : Settings.AccentColor;
         set
         {
             if (Settings.AccentColor != value)
@@ -303,6 +303,7 @@ public class MainViewModel : ViewModelBase
 
     public IReadOnlyList<string> AvailableAccentColors { get; } =
     [
+        "#3778BF", // Blue
         "#38BDF8", // Sky Blue
         "#A855F7", // Neon Purple
         "#22C55E", // Emerald Green

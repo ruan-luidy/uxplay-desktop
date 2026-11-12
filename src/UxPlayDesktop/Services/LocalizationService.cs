@@ -272,6 +272,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Exit",
             ["BonjourStatusEmbedded"] = "Built-in mDNS",
             ["VideoLabel"] = "VIDEO",
+            ["StartupSettings"] = "Startup & Window",
+            ["AppearanceSettings"] = "Appearance",
         };
 
         // 2. SPANISH (Español)
@@ -422,6 +424,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Salir",
             ["BonjourStatusEmbedded"] = "mDNS integrado",
             ["VideoLabel"] = "VÍDEO",
+            ["StartupSettings"] = "Inicio y ventana",
+            ["AppearanceSettings"] = "Apariencia",
         };
 
         // 3. FRENCH (Français)
@@ -548,6 +552,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Quitter",
             ["BonjourStatusEmbedded"] = "mDNS intégré",
             ["VideoLabel"] = "VIDÉO",
+            ["StartupSettings"] = "Démarrage et fenêtre",
+            ["AppearanceSettings"] = "Apparence",
         };
 
         // 4. GERMAN (Deutsch)
@@ -674,6 +680,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Beenden",
             ["BonjourStatusEmbedded"] = "Integriertes mDNS",
             ["VideoLabel"] = "VIDEO",
+            ["StartupSettings"] = "Start & Fenster",
+            ["AppearanceSettings"] = "Darstellung",
         };
 
         // 5. ITALIAN (Italiano)
@@ -800,6 +808,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Esci",
             ["BonjourStatusEmbedded"] = "mDNS integrato",
             ["VideoLabel"] = "VIDEO",
+            ["StartupSettings"] = "Avvio e finestra",
+            ["AppearanceSettings"] = "Aspetto",
         };
 
         // 6. PORTUGUESE (Brasil & América)
@@ -926,6 +936,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Sair",
             ["BonjourStatusEmbedded"] = "mDNS integrado",
             ["VideoLabel"] = "VÍDEO",
+            ["StartupSettings"] = "Inicialização e janela",
+            ["AppearanceSettings"] = "Aparência",
         };
         _translations["pt-PT"] = _translations["pt-BR"];
 
@@ -1053,6 +1065,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Выход",
             ["BonjourStatusEmbedded"] = "Встроенный mDNS",
             ["VideoLabel"] = "ВИДЕО",
+            ["StartupSettings"] = "Запуск и окно",
+            ["AppearanceSettings"] = "Оформление",
         };
 
         // 8. CHINESE (Simplified - 简体中文)
@@ -1179,6 +1193,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "退出",
             ["BonjourStatusEmbedded"] = "内置 mDNS",
             ["VideoLabel"] = "视频",
+            ["StartupSettings"] = "启动与窗口",
+            ["AppearanceSettings"] = "外观",
         };
 
         // 9. JAPANESE (日本語)
@@ -1305,6 +1321,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "終了",
             ["BonjourStatusEmbedded"] = "内蔵 mDNS",
             ["VideoLabel"] = "ビデオ",
+            ["StartupSettings"] = "起動とウィンドウ",
+            ["AppearanceSettings"] = "外観",
         };
 
         // 10. POLISH, DUTCH, UKRAINIAN, SWEDISH, KOREAN aliases & definitions
@@ -1358,6 +1376,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Wyjdź",
             ["BonjourStatusEmbedded"] = "Wbudowany mDNS",
             ["VideoLabel"] = "WIDEO",
+            ["StartupSettings"] = "Uruchamianie i okno",
+            ["AppearanceSettings"] = "Wygląd",
         };
 
         _translations["nl"] = new Dictionary<string, string>(_translations["en"])
@@ -1410,6 +1430,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Afsluiten",
             ["BonjourStatusEmbedded"] = "Ingebouwde mDNS",
             ["VideoLabel"] = "VIDEO",
+            ["StartupSettings"] = "Opstarten en venster",
+            ["AppearanceSettings"] = "Weergave",
         };
 
         _translations["uk"] = new Dictionary<string, string>(_translations["ru"])
@@ -1462,6 +1484,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Вийти",
             ["BonjourStatusEmbedded"] = "Вбудований mDNS",
             ["VideoLabel"] = "ВІДЕО",
+            ["StartupSettings"] = "Запуск і вікно",
+            ["AppearanceSettings"] = "Оформлення",
         };
 
         _translations["sv"] = new Dictionary<string, string>(_translations["en"])
@@ -1509,6 +1533,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "Avsluta",
             ["BonjourStatusEmbedded"] = "Inbyggd mDNS",
             ["VideoLabel"] = "VIDEO",
+            ["StartupSettings"] = "Start och fönster",
+            ["AppearanceSettings"] = "Utseende",
         };
 
         _translations["ko"] = new Dictionary<string, string>(_translations["ja"])
@@ -1560,6 +1586,8 @@ public class LocalizationService : ILocalizationService
             ["TrayExit"] = "종료",
             ["BonjourStatusEmbedded"] = "내장 mDNS",
             ["VideoLabel"] = "비디오",
+            ["StartupSettings"] = "시작 및 창",
+            ["AppearanceSettings"] = "모양",
         };
     }
 }
