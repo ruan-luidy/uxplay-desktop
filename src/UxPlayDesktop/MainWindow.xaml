@@ -4,8 +4,10 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:hc="https://handyorg.github.io/handycontrol"
+           xmlns:controls="clr-namespace:UxPlayDesktop.Controls"
            xmlns:icons="clr-namespace:UxPlayDesktop.Icons"
            xmlns:models="clr-namespace:UxPlayDesktop.Models"
+           xmlns:services="clr-namespace:UxPlayDesktop.Services"
            xmlns:views="clr-namespace:UxPlayDesktop.Views"
            xmlns:vm="clr-namespace:UxPlayDesktop.ViewModels"
            d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
@@ -146,100 +148,173 @@
             </Grid>
         </Border>
 
-        <!-- ============================================================== -->
-        <!-- VIEW 3: MODAL NETWORK DIAGNOSTIC DIALOG OVERLAY                -->
-        <!-- ============================================================== -->
-        <Grid Visibility="{Binding ShowDiagnosticDialog, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}"
-              Background="#CC0B0F19"
-              Panel.ZIndex="1000">
-            <Border Background="#1E293B"
-                    BorderBrush="{DynamicResource PrimaryBrush}"
-                    BorderThickness="1"
-                    CornerRadius="10"
-                    MaxWidth="640"
-                    MaxHeight="520"
-                    Padding="22"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <!-- Modal Header -->
-                    <Grid Grid.Row="0" Margin="0,0,0,16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Text="{Binding Loc[DiagnosticTitle]}" FontSize="16" FontWeight="Bold" Foreground="White" />
-                            <TextBlock Text="{Binding Loc[DiagnosticSubtitle]}" FontSize="12" Foreground="#94A3B8" Margin="0,2,0,0" />
-                        </StackPanel>
-                        <Button Grid.Column="1" Command="{Binding CloseDiagnosticCommand}" Style="{StaticResource SecondaryButtonStyle}" Padding="8,4" Content="✕" />
-                    </Grid>
-
-                    <!-- Modal Body / Diagnostic Results List -->
-                    <Border Grid.Row="1" Background="#0F172A" CornerRadius="8" Padding="12" Margin="0,0,0,16">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Loc[DiagnosticRunning]}"
-                                           Foreground="#38BDF8"
-                                           FontSize="13"
-                                           FontWeight="SemiBold"
-                                           Visibility="{Binding IsRunningDiagnostic, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}"
-                                           Margin="0,10"
-                                           HorizontalAlignment="Center" />
-
-                                <ItemsControl ItemsSource="{Binding DiagnosticReport.Results}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Background="#1E293B" CornerRadius="6" Padding="12,10" Margin="0,0,0,8">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="32" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" Text="{Binding Severity, Converter={x:Static models:SeverityToIconConverter.Instance}}" FontSize="16" VerticalAlignment="Top" />
-                                                    <StackPanel Grid.Column="1">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Title}" FontWeight="Bold" Foreground="White" FontSize="13" />
-                                                            <Border Background="#334155" CornerRadius="3" Padding="4,1" Margin="8,0,0,0" VerticalAlignment="Center">
-                                                                <TextBlock Text="{Binding Category}" FontSize="10" Foreground="#94A3B8" />
-                                                            </Border>
-                                                        </StackPanel>
-                                                        <TextBlock Text="{Binding Message}" Foreground="#E2E8F0" FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap" />
-                                                        <TextBlock Text="{Binding Recommendation, StringFormat='💡 {0}'}"
-                                                                   Foreground="#FCD34D"
-                                                                   FontSize="11"
-                                                                   Margin="0,4,0,0"
-                                                                   TextWrapping="Wrap"
-                                                                   Visibility="{Binding Recommendation, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ScrollViewer>
+        <!-- Screenshot saved: a toast at the top of the page -->
+        <Grid Width="420"
+              Margin="200,12,0,0"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Top"
+              Panel.ZIndex="900"
+              RenderTransformOrigin="0.5,0">
+            <Grid.RenderTransform>
+                <TranslateTransform />
+            </Grid.RenderTransform>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ScreenshotNotification, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" Value="Visible">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="-24" To="0" Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <BackEase Amplitude="0.3" EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsCompactMode}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Border Style="{StaticResource ToastShadow}" />
+            <Border Padding="14,12" Style="{StaticResource ToastCard}">
+                <DockPanel>
+                    <Border Width="34" Height="34" Margin="0,0,12,0" Background="{DynamicResource Success.SoftBrush}" CornerRadius="17" DockPanel.Dock="Left">
+                        <Path Width="16" Height="16" Data="{icons:Phosphor CameraBold}" Fill="{DynamicResource Success.TextBrush}" Stretch="Uniform" />
                     </Border>
-
-                    <!-- Modal Footer -->
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Command="{Binding FixBonjourCommand}" Style="{StaticResource PrimaryButtonStyle}" HorizontalAlignment="Left" Padding="14,8">
-                            <TextBlock Text="🛠️ Reparar Red, Bonjour y Firewall" FontWeight="SemiBold" />
-                        </Button>
-                        <Button Grid.Column="1" Command="{Binding CloseDiagnosticCommand}" Style="{StaticResource SecondaryButtonStyle}" Content="Cerrar" Padding="16,8" />
-                    </Grid>
-                </Grid>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding ScreenshotNotification}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}" Text="{Binding LastScreenshotPath}" />
+                    </StackPanel>
+                </DockPanel>
             </Border>
+        </Grid>
+
+        <!-- Network doctor: a dialog over a dimmed window -->
+        <Grid Panel.ZIndex="1000" Visibility="{Binding ShowDiagnosticDialog, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
+            <Border Background="{DynamicResource Overlay.ScrimBrush}" />
+            <Grid Width="580" MaxHeight="560" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border Style="{StaticResource DialogShadow}" />
+                <Border Style="{StaticResource DialogCard}">
+                    <DockPanel>
+                        <DockPanel Margin="24,20,16,12" DockPanel.Dock="Top">
+                            <Button VerticalAlignment="Top"
+                                    hc:IconElement.Geometry="{icons:Phosphor XBold}"
+                                    Command="{Binding CloseDiagnosticCommand}"
+                                    DockPanel.Dock="Right"
+                                    Style="{StaticResource Action.Icon.Close}"
+                                    ToolTip="{Binding Loc[Close]}" />
+                            <Border Margin="0,0,14,0" VerticalAlignment="Center" DockPanel.Dock="Left" Style="{StaticResource DialogIconTile}">
+                                <Path Width="18" Height="18" Data="{icons:Phosphor StethoscopeBold}" Fill="{DynamicResource Accent.TextBrush}" Stretch="Uniform" />
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock FontSize="{StaticResource FontSize.Lg}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Loc[DiagnosticTitle]}" />
+                                <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}" Text="{Binding Loc[DiagnosticSubtitle]}" TextTrimming="None" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DockPanel>
+
+                        <Border DockPanel.Dock="Bottom" Style="{StaticResource DialogFooter}">
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button Margin="0,0,8,0" Command="{Binding CloseDiagnosticCommand}" Content="{Binding Loc[Close]}" Style="{StaticResource Action.Dialog}" />
+                                <Button hc:IconElement.Geometry="{icons:Phosphor WrenchBold}" Command="{Binding FixBonjourCommand}" Content="{Binding Loc[DiagnosticRepair]}" Style="{StaticResource Action.Dialog.Primary}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Grid Margin="24,0,24,16">
+                            <StackPanel Margin="0,24" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding IsRunningDiagnostic, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
+                                <hc:CircleProgressBar Width="18" Height="18" Margin="0,0,10,0" ArcThickness="2" IsIndeterminate="True" ShowText="False" />
+                                <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding Loc[DiagnosticRunning]}" />
+                            </StackPanel>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{Binding IsRunningDiagnostic, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}">
+                                <StackPanel>
+                                    <Border Margin="0,0,0,12" Padding="12,10" CornerRadius="{StaticResource Radius.Lg}">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="{DynamicResource Warning.SoftBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding DiagnosticReport.IsHealthy}" Value="True">
+                                                        <Setter Property="Background" Value="{DynamicResource Success.SoftBrush}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding DiagnosticReport}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" TextWrapping="Wrap">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="{Binding Loc[DiagnosticIssues]}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding DiagnosticReport.IsHealthy}" Value="True">
+                                                            <Setter Property="Text" Value="{Binding Loc[DiagnosticHealthy]}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+
+                                    <Border Style="{StaticResource InfoCard}">
+                                        <ItemsControl ItemsSource="{Binding DiagnosticReport.Results}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type services:DiagnosticItem}">
+                                                    <StackPanel>
+                                                        <Border x:Name="Divider" Style="{StaticResource InfoDivider}" />
+                                                        <DockPanel Margin="0,12">
+                                                            <Path x:Name="Icon"
+                                                                  Width="16"
+                                                                  Height="16"
+                                                                  Margin="0,1,12,0"
+                                                                  VerticalAlignment="Top"
+                                                                  Data="{icons:Phosphor CheckCircleFill}"
+                                                                  DockPanel.Dock="Left"
+                                                                  Fill="{DynamicResource Success.TextBrush}"
+                                                                  Stretch="Uniform" />
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Title}" />
+                                                                    <controls:Chip Margin="8,0,0,0" Content="{Binding Category}" />
+                                                                </StackPanel>
+                                                                <TextBlock Margin="0,4,0,0" Style="{StaticResource CaptionText}" Text="{Binding Message}" TextTrimming="None" TextWrapping="Wrap" />
+                                                                <DockPanel Margin="0,6,0,0" Visibility="{Binding Recommendation, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
+                                                                    <Path Width="13" Height="13" Margin="0,1,6,0" VerticalAlignment="Top" Data="{icons:Phosphor LightbulbBold}" DockPanel.Dock="Left" Fill="{DynamicResource Warning.TextBrush}" Stretch="Uniform" />
+                                                                    <TextBlock FontSize="{StaticResource FontSize.Sm}" Foreground="{DynamicResource Warning.TextBrush}" Text="{Binding Recommendation}" TextWrapping="Wrap" />
+                                                                </DockPanel>
+                                                            </StackPanel>
+                                                        </DockPanel>
+                                                    </StackPanel>
+                                                    <DataTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                            <Setter TargetName="Divider" Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Severity}" Value="{x:Static services:DiagnosticSeverity.Warning}">
+                                                            <Setter TargetName="Icon" Property="Data" Value="{icons:Phosphor WarningFill}" />
+                                                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource Warning.TextBrush}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Severity}" Value="{x:Static services:DiagnosticSeverity.Fail}">
+                                                            <Setter TargetName="Icon" Property="Data" Value="{icons:Phosphor XCircleFill}" />
+                                                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource Danger.TextBrush}" />
+                                                        </DataTrigger>
+                                                    </DataTemplate.Triggers>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Border>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </DockPanel>
+                </Border>
+            </Grid>
         </Grid>
     </Grid>
 </hc:Window>
