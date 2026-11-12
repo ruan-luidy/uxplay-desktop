@@ -25,13 +25,4 @@ public class LogEntry
         LogLevel.Error => Tone.Danger,
         _ => Tone.Neutral
     };
-
-    public string BadgeColor => Level switch
-    {
-        LogLevel.Debug => "#6C757D",
-        LogLevel.Info => "#0D6EFD",
-        LogLevel.Warning => "#FFC107",
-        LogLevel.Error => "#DC3545",
-        _ => "#ADB5BD"
-    };
 }

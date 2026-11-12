@@ -91,7 +91,6 @@ public class MainViewModelTests
         Assert.Equal(ServerState.Stopped, vm.ServerState);
         Assert.False(vm.IsServerRunning);
         Assert.Equal("Start AirPlay Server", vm.StartStopButtonText);
-        Assert.Equal("▶", vm.StartStopButtonIcon);
         Assert.Equal("Server Stopped", vm.StatusTitle);
     }
 

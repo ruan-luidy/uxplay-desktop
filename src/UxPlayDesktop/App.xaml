@@ -16,14 +16,6 @@
                 <ResourceDictionary Source="/UxPlayDesktop;component/Themes/Controls.xaml" />
                 <ResourceDictionary Source="/UxPlayDesktop;component/Themes/Surfaces.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <!-- Older keys still used by pages that have not moved to the new styles yet -->
-            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="TextSecondaryBrush" Color="#A0A0A0" />
-            <SolidColorBrush x:Key="TextMutedBrush" Color="#6E6E6E" />
-            <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource Action.Primary}" />
-            <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource Action}" />
-            <Style x:Key="CardStyle" TargetType="Border" BasedOn="{StaticResource SurfaceCard}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

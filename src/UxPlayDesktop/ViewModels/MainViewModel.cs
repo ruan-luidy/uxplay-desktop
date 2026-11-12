@@ -64,13 +64,11 @@ public class MainViewModel : ViewModelBase
                 OnPropertyChanged(nameof(StatusTitle));
                 OnPropertyChanged(nameof(StatusSubtitle));
                 OnPropertyChanged(nameof(StatusDescription));
-                OnPropertyChanged(nameof(StatusColor));
                 OnPropertyChanged(nameof(StatusTone));
                 OnPropertyChanged(nameof(IsStreaming));
                 OnPropertyChanged(nameof(IsBusy));
                 OnPropertyChanged(nameof(IsServerRunning));
                 OnPropertyChanged(nameof(StartStopButtonText));
-                OnPropertyChanged(nameof(StartStopButtonIcon));
                 OnPropertyChanged(nameof(DisplayClientName));
                 OnPropertyChanged(nameof(DisplayClientIp));
                 OnPropertyChanged(nameof(SessionActiveText));
@@ -136,7 +134,6 @@ public class MainViewModel : ViewModelBase
     }
 
     public string StartStopButtonText => IsServerRunning ? Loc["StopServer"] : Loc["StartServer"];
-    public string StartStopButtonIcon => IsServerRunning ? "⏹" : "▶";
 
     public string StatusTitle => ServerState switch
     {
@@ -180,7 +177,6 @@ public class MainViewModel : ViewModelBase
     public string DisplayTargetFps => string.Format(Loc["TargetFpsFormat"], Settings.TargetFps);
     public string DisplayAudioDelay => string.Format(Loc["AudioDelayFormat"], Settings.AudioDelayMs);
     public string DisplayStep3Desc => string.Format(Loc["Step3Desc"], Settings.ServerName);
-    public string AppVersionDisplay => "UxPlay Desktop v1.2.3";
     public string AppVersion => typeof(MainViewModel).Assembly.GetName().Version is { } v ? $"v{v.Major}.{v.Minor}.{v.Build}" : string.Empty;
 
     // The about bullets without the leading dot the strings carry, so each can sit on its own row
@@ -473,16 +469,6 @@ public class MainViewModel : ViewModelBase
         get => _isToastVisible;
         private set => SetField(ref _isToastVisible, value);
     }
-
-    public string StatusColor => ServerState switch
-    {
-        ServerState.Streaming => "#198754",   // Green
-        ServerState.Listening => "#0D6EFD",   // Blue
-        ServerState.Connecting => "#FFC107",  // Amber
-        ServerState.Starting => "#0DCAF0",    // Cyan
-        ServerState.Error => "#DC3545",       // Red
-        _ => "#6C757D"                        // Gray
-    };
 
     public Tone StatusTone => ServerState switch
     {
