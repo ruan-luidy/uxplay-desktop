@@ -1,0 +1,95 @@
+<UserControl x:Class="UxPlayDesktop.Views.CompactView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:icons="clr-namespace:UxPlayDesktop.Icons"
+             xmlns:models="clr-namespace:UxPlayDesktop.Models"
+             xmlns:vm="clr-namespace:UxPlayDesktop.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="StatusDot" TargetType="Ellipse">
+            <Setter Property="Width" Value="10" />
+            <Setter Property="Height" Value="10" />
+            <Setter Property="Fill" Value="{DynamicResource MutedTextBrush}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Accent}">
+                    <Setter Property="Fill" Value="{DynamicResource Accent.TextBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Success}">
+                    <Setter Property="Fill" Value="{DynamicResource Success.TextBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Warning}">
+                    <Setter Property="Fill" Value="{DynamicResource Warning.TextBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusTone}" Value="{x:Static models:Tone.Danger}">
+                    <Setter Property="Fill" Value="{DynamicResource Danger.TextBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <!-- The mini widget: status and device on the left, quick controls in the middle, server and restore on the right -->
+    <Border Margin="8,0,8,8" Padding="14,0" Background="{DynamicResource Pane.BackgroundBrush}" CornerRadius="{StaticResource Radius.Card}">
+        <DockPanel VerticalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right" Orientation="Horizontal">
+                <Grid Margin="0,0,8,0">
+                    <Button hc:IconElement.Geometry="{icons:Phosphor PlayFill}"
+                            Command="{Binding ToggleServerCommand}"
+                            Style="{StaticResource Action.Primary}"
+                            Width="{StaticResource Control.Height}"
+                            Padding="0"
+                            ToolTip="{Binding Loc[StartServer]}"
+                            Visibility="{Binding IsServerRunning, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}" />
+                    <Button hc:IconElement.Geometry="{icons:Phosphor StopFill}"
+                            Command="{Binding ToggleServerCommand}"
+                            Style="{StaticResource Action.Icon}"
+                            ToolTip="{Binding Loc[StopServer]}"
+                            Visibility="{Binding IsServerRunning, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
+                </Grid>
+                <Button hc:IconElement.Geometry="{icons:Phosphor ArrowsOutSimpleBold}"
+                        Command="{Binding ToggleCompactModeCommand}"
+                        Style="{StaticResource Action.Icon}"
+                        ToolTip="{Binding Loc[RestoreNormalMode]}" />
+            </StackPanel>
+
+            <StackPanel Margin="16,0" VerticalAlignment="Center" DockPanel.Dock="Right" Orientation="Horizontal">
+                <Grid Margin="0,0,6,0">
+                    <Button hc:IconElement.Geometry="{icons:Phosphor RecordBold}"
+                            Command="{Binding ToggleRecordingCommand}"
+                            Style="{StaticResource Action.Icon}"
+                            ToolTip="{Binding Loc[RecordButton]}"
+                            Visibility="{Binding IsRecording, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}" />
+                    <Button hc:IconElement.Geometry="{icons:Phosphor StopFill}"
+                            Background="{DynamicResource Danger.SoftBrush}"
+                            Command="{Binding ToggleRecordingCommand}"
+                            Foreground="{DynamicResource Danger.TextBrush}"
+                            Style="{StaticResource Action.Icon}"
+                            ToolTip="{Binding Loc[StopRecordButton]}"
+                            Visibility="{Binding IsRecording, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
+                </Grid>
+                <Button Margin="0,0,12,0"
+                        hc:IconElement.Geometry="{icons:Phosphor CameraBold}"
+                        Command="{Binding CaptureScreenshotCommand}"
+                        Style="{StaticResource Action.Icon}"
+                        ToolTip="{Binding Loc[ScreenshotButton]}" />
+                <ToggleButton Margin="0,0,8,0"
+                              hc:IconElement.Geometry="{icons:Phosphor SpeakerHighBold}"
+                              hc:IconSwitchElement.GeometrySelected="{icons:Phosphor SpeakerSlashBold}"
+                              IsChecked="{Binding IsMuted}"
+                              Style="{StaticResource Action.Toggle.Icon}"
+                              ToolTip="{Binding MuteButtonText}" />
+                <Slider Width="90" VerticalAlignment="Center" Maximum="1" Minimum="0" ToolTip="{Binding VolumeDisplay}" Value="{Binding AudioVolume}" />
+            </StackPanel>
+
+            <Ellipse Margin="0,0,12,0" VerticalAlignment="Center" DockPanel.Dock="Left" Style="{StaticResource StatusDot}" />
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding DisplayClientName}" TextTrimming="CharacterEllipsis" ToolTip="{Binding StatusTitle}" />
+                <TextBlock Margin="0,2,0,0" FontFamily="{StaticResource FontFamily.Numbers}" Style="{StaticResource CaptionText}" Text="{Binding FormattedDuration}" />
+            </StackPanel>
+        </DockPanel>
+    </Border>
+</UserControl>
