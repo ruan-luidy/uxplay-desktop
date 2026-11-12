@@ -1,0 +1,82 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--
+        Design tokens. Loaded right after the HandyControl theme and before every other dictionary,
+        because StaticResource only sees what is already merged into the application.
+        Theme-dependent brushes below hold the dark values; ThemeService swaps them for the light theme.
+    -->
+
+    <!-- Spacing -->
+    <Thickness x:Key="Page.Margin">16</Thickness>
+    <Thickness x:Key="Padding.Card">16,12</Thickness>
+
+    <!-- Corner radius: regions (cards, dialogs) are large, controls inside them are small -->
+    <CornerRadius x:Key="Radius.Sm">4</CornerRadius>
+    <CornerRadius x:Key="Radius.Md">6</CornerRadius>
+    <CornerRadius x:Key="Radius.Lg">8</CornerRadius>
+    <CornerRadius x:Key="Radius.Card">10</CornerRadius>
+    <CornerRadius x:Key="Radius.XL">12</CornerRadius>
+
+    <!-- Sizes -->
+    <system:Double x:Key="Control.Height">30</system:Double>
+    <system:Double x:Key="Control.Height.Small">26</system:Double>
+    <system:Double x:Key="Nav.ItemHeight">36</system:Double>
+    <system:Double x:Key="Icon.Size">14</system:Double>
+    <system:Double x:Key="Icon.Size.Nav">16</system:Double>
+
+    <!-- Typography -->
+    <system:Double x:Key="FontSize.XS">11</system:Double>
+    <system:Double x:Key="FontSize.Sm">12</system:Double>
+    <system:Double x:Key="FontSize.Body">13</system:Double>
+    <system:Double x:Key="FontSize.Md">14</system:Double>
+    <system:Double x:Key="FontSize.Lg">16</system:Double>
+    <system:Double x:Key="FontSize.Title">20</system:Double>
+    <system:Double x:Key="FontSize.Display">24</system:Double>
+    <FontFamily x:Key="FontFamily.Default">Segoe UI Variable Text, Segoe UI</FontFamily>
+    <FontFamily x:Key="FontFamily.Numbers">Cascadia Mono, Consolas</FontFamily>
+
+    <!-- Layers: the side pane sits on the window backdrop, pages are a translucent layer over it, cards one more -->
+    <SolidColorBrush x:Key="Window.FallbackBrush" Color="#1C1C1C" />
+    <SolidColorBrush x:Key="Pane.BackgroundBrush" Color="#12FFFFFF" />
+    <SolidColorBrush x:Key="Card.BackgroundBrush" Color="#14FFFFFF" />
+    <SolidColorBrush x:Key="Divider.Brush" Color="#14FFFFFF" />
+    <SolidColorBrush x:Key="Progress.TrackBrush" Color="#1AFFFFFF" />
+    <SolidColorBrush x:Key="Button.BackgroundBrush" Color="#17FFFFFF" />
+    <SolidColorBrush x:Key="Button.HoverBrush" Color="#24FFFFFF" />
+    <SolidColorBrush x:Key="Button.PressedBrush" Color="#0EFFFFFF" />
+    <SolidColorBrush x:Key="Nav.SelectedBrush" Color="#1AFFFFFF" />
+    <SolidColorBrush x:Key="Hover.RowBrush" Color="#0FFFFFFF" />
+    <SolidColorBrush x:Key="Switch.TrackBrush" Color="#33FFFFFF" />
+    <SolidColorBrush x:Key="MutedTextBrush" Color="#85858C" />
+
+    <!-- Everything that floats (menus, tooltips, toasts, dialogs) uses the Windows 11 flyout grey -->
+    <SolidColorBrush x:Key="Flyout.BackgroundBrush" Color="#2B2B2E" />
+    <SolidColorBrush x:Key="Flyout.BorderBrush" Color="#1FFFFFFF" />
+    <SolidColorBrush x:Key="Dialog.BackgroundBrush" Color="#1F1F22" />
+    <SolidColorBrush x:Key="Dialog.FooterBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="Overlay.ScrimBrush" Color="#8C000000" />
+
+    <!-- Status tones: a soft background and a readable text colour for each one -->
+    <SolidColorBrush x:Key="Accent.SoftBrush" Color="#2E3778BF" />
+    <SolidColorBrush x:Key="Accent.TextBrush" Color="#6FA3DC" />
+    <SolidColorBrush x:Key="Success.SoftBrush" Color="#2633C467" />
+    <SolidColorBrush x:Key="Success.TextBrush" Color="#3DCB5E" />
+    <SolidColorBrush x:Key="Warning.SoftBrush" Color="#2EE9AF20" />
+    <SolidColorBrush x:Key="Warning.TextBrush" Color="#E9AF20" />
+    <SolidColorBrush x:Key="Danger.SoftBrush" Color="#2EDB3340" />
+    <SolidColorBrush x:Key="Danger.TextBrush" Color="#E5525E" />
+    <SolidColorBrush x:Key="Neutral.SoftBrush" Color="#338A8A90" />
+
+    <!-- Scroll bar thumb -->
+    <SolidColorBrush x:Key="ScrollBar.ThumbBrush" Color="#4A4A4A" />
+    <SolidColorBrush x:Key="ScrollBar.ThumbHoverBrush" Color="#6F6F6F" />
+    <SolidColorBrush x:Key="ScrollBar.ThumbPressedBrush" Color="#9A9A9A" />
+
+    <!-- Shadows live on a separate border behind the card, so the text keeps ClearType -->
+    <DropShadowEffect x:Key="Shadow.Flyout" BlurRadius="16" Direction="270" Opacity="0.28" ShadowDepth="3" Color="Black" />
+    <DropShadowEffect x:Key="Shadow.Toast" BlurRadius="24" Direction="270" Opacity="0.28" ShadowDepth="6" Color="Black" />
+    <DropShadowEffect x:Key="Shadow.Dialog" BlurRadius="32" Direction="270" Opacity="0.55" ShadowDepth="8" Color="Black" />
+
+</ResourceDictionary>

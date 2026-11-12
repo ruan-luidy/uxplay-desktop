@@ -13,6 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HandyControls" Version="3.6.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.PhosphorIcons" Version="6.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="..\..\resources\newicon.ico" Link="resources\newicon.ico" />
     <None Include="..\..\resources\newicon.ico" Link="resources\newicon.ico" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

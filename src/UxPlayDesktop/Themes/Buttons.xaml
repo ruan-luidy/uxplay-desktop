@@ -1,0 +1,225 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:hc="https://handyorg.github.io/handycontrol">
+
+    <!--
+        Buttons on top of HandyControl. ButtonBaseStyle is redefined first, based on the HandyControl one
+        (the StaticResource still resolves to it here), so every coloured style below inherits the same
+        hover fade and the slight shrink on press.
+    -->
+
+    <Storyboard x:Key="Press.Shrink">
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.95" Duration="0:0:0.10" />
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.95" Duration="0:0:0.10" />
+    </Storyboard>
+    <Storyboard x:Key="Press.Release">
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.10" />
+        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.10" />
+    </Storyboard>
+
+    <Style x:Key="ButtonBaseStyle" TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="hc:IconElement.Width" Value="{StaticResource Icon.Size}" />
+        <Setter Property="hc:IconElement.Height" Value="{StaticResource Icon.Size}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.9" Duration="0:0:0.20" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.20" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Press.Shrink}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource Press.Release}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Default button: no border, a translucent fill that works on top of the backdrop -->
+    <Style x:Key="ButtonDefault" TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="Background" Value="{DynamicResource Button.BackgroundBrush}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource Button.HoverBrush}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource Button.PressedBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" BasedOn="{StaticResource ButtonDefault}" />
+
+    <Style x:Key="ButtonPrimary" TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
+        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
+    </Style>
+
+    <Style x:Key="ButtonDanger" TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
+        <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DangerBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
+    </Style>
+
+    <!-- HandyControl's icon button keeps its own template; it only gets the press shrink -->
+    <Style x:Key="ButtonIcon" TargetType="Button" BasedOn="{StaticResource ButtonIcon}">
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Press.Shrink}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource Press.Release}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--
+        Buttons by role. Views never set height, padding or font size on a button, they pick one of these:
+        - Action, Action.Primary, Action.Danger: form, dialog and page actions;
+        - Action.Icon: icon-only button with the default fill, square at control height;
+        - Action.Icon.Small: icon-only button without a fill until hovered (row actions, close buttons);
+        - Action.Dialog*: dialog footer buttons, with a minimum width so they line up.
+    -->
+    <Style x:Key="Action" TargetType="Button" BasedOn="{StaticResource ButtonDefault}" />
+
+    <Style x:Key="Action.Primary" TargetType="Button" BasedOn="{StaticResource ButtonPrimary}" />
+
+    <Style x:Key="Action.Danger" TargetType="Button" BasedOn="{StaticResource ButtonDanger}" />
+
+    <Style x:Key="Action.Icon" TargetType="Button" BasedOn="{StaticResource ButtonDefault}">
+        <Setter Property="Width" Value="{StaticResource Control.Height}" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="Action.Icon.Small" TargetType="Button" BasedOn="{StaticResource ButtonIcon}">
+        <Setter Property="Width" Value="{StaticResource Control.Height.Small}" />
+        <Setter Property="Height" Value="{StaticResource Control.Height.Small}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+        <Setter Property="hc:IconElement.Width" Value="{StaticResource Icon.Size}" />
+        <Setter Property="hc:IconElement.Height" Value="{StaticResource Icon.Size}" />
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource Radius.Sm}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Button.BackgroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Action.Icon.Close" TargetType="Button" BasedOn="{StaticResource Action.Icon.Small}">
+        <Setter Property="Width" Value="{StaticResource Control.Height}" />
+        <Setter Property="Height" Value="{StaticResource Control.Height}" />
+        <Setter Property="hc:IconElement.Width" Value="12" />
+        <Setter Property="hc:IconElement.Height" Value="12" />
+    </Style>
+
+    <Style x:Key="Action.Dialog" TargetType="Button" BasedOn="{StaticResource Action}">
+        <Setter Property="MinWidth" Value="96" />
+    </Style>
+
+    <Style x:Key="Action.Dialog.Primary" TargetType="Button" BasedOn="{StaticResource Action.Primary}">
+        <Setter Property="MinWidth" Value="96" />
+    </Style>
+
+    <!--
+        Icon-only toggle (mute, always on top): same frame as Action.Icon.Small, accent tinted while checked.
+        IconSwitchElement.GeometrySelected swaps the icon when it is set.
+    -->
+    <Style x:Key="Action.Toggle.Icon" TargetType="ToggleButton">
+        <Setter Property="Width" Value="{StaticResource Control.Height}" />
+        <Setter Property="Height" Value="{StaticResource Control.Height}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="{DynamicResource Button.BackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="hc:IconElement.Width" Value="{StaticResource Icon.Size}" />
+        <Setter Property="hc:IconElement.Height" Value="{StaticResource Icon.Size}" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="{StaticResource Radius.Sm}" SnapsToDevicePixels="True">
+                        <Path x:Name="Icon"
+                              Width="{TemplateBinding hc:IconElement.Width}"
+                              Height="{TemplateBinding hc:IconElement.Height}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Data="{TemplateBinding hc:IconElement.Geometry}"
+                              Fill="{TemplateBinding Foreground}"
+                              Stretch="Uniform" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Icon" Property="Data" Value="{Binding Path=(hc:IconSwitchElement.GeometrySelected), RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="hc:IconSwitchElement.GeometrySelected" Value="{x:Null}" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Icon" Property="Data" Value="{Binding Path=(hc:IconElement.Geometry), RelativeSource={RelativeSource TemplatedParent}}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource Button.HoverBrush}" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource Accent.TextBrush}" />
+                <Setter Property="Background" Value="{DynamicResource Accent.SoftBrush}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource Press.Shrink}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource Press.Release}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
