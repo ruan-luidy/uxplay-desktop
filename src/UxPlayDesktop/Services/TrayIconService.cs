@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using MahApps.Metro.IconPacks;
+using UxPlayDesktop.Icons;
 using UxPlayDesktop.ViewModels;
 
 namespace UxPlayDesktop.Services;
@@ -182,71 +184,28 @@ public class TrayIconService : ITrayIconService
     {
         if (_window == null || _viewModel == null) return;
 
-        var darkBg = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(30, 30, 30));
-        var darkBorder = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(60, 60, 60));
-        var sepBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(50, 50, 50));
+        var menu = new ContextMenu();
+        menu.SetResourceReference(FrameworkElement.StyleProperty, "TrayMenu");
 
-        var menu = new ContextMenu
-        {
-            Background = darkBg,
-            BorderBrush = darkBorder,
-            BorderThickness = new Thickness(1),
-            Padding = new Thickness(4)
-        };
-
-        var headerItem = new MenuItem
-        {
-            Header = "UxPlay Desktop",
-            FontWeight = FontWeights.Bold,
-            Foreground = System.Windows.Media.Brushes.White,
-            Padding = new Thickness(12, 6, 12, 6)
-        };
-        headerItem.Click += (_, _) => RestoreWindow();
+        var headerItem = CreateMenuItem("UxPlay Desktop", PackIconPhosphorIconsKind.ScreencastBold, RestoreWindow);
+        headerItem.FontWeight = FontWeights.SemiBold;
         menu.Items.Add(headerItem);
+        menu.Items.Add(new Separator());
 
-        menu.Items.Add(new Separator
-        {
-            Margin = new Thickness(4, 2, 4, 2),
-            Background = sepBrush
-        });
-
-        var toggleItem = new MenuItem
-        {
-            Header = _viewModel.IsServerRunning ? _viewModel.Loc["StopServer"] : _viewModel.Loc["StartServer"],
-            Foreground = System.Windows.Media.Brushes.White,
-            Padding = new Thickness(12, 6, 12, 6)
-        };
-        toggleItem.Click += (_, _) =>
-        {
-            if (_viewModel.ToggleServerCommand.CanExecute(null))
+        var isRunning = _viewModel.IsServerRunning;
+        menu.Items.Add(CreateMenuItem(
+            isRunning ? _viewModel.Loc["StopServer"] : _viewModel.Loc["StartServer"],
+            isRunning ? PackIconPhosphorIconsKind.StopBold : PackIconPhosphorIconsKind.PlayBold,
+            () =>
             {
-                _viewModel.ToggleServerCommand.Execute(null);
-            }
-        };
-        menu.Items.Add(toggleItem);
-
-        var restoreItem = new MenuItem
-        {
-            Header = _viewModel.Loc["TrayRestore"],
-            Foreground = System.Windows.Media.Brushes.White,
-            Padding = new Thickness(12, 6, 12, 6)
-        };
-        restoreItem.Click += (_, _) => RestoreWindow();
-        menu.Items.Add(restoreItem);
-
-        menu.Items.Add(new Separator
-        {
-            Margin = new Thickness(4, 2, 4, 2),
-            Background = sepBrush
-        });
-
-        var exitItem = new MenuItem
-        {
-            Header = _viewModel.Loc["TrayExit"],
-            Foreground = System.Windows.Media.Brushes.White,
-            Padding = new Thickness(12, 6, 12, 6)
-        };
-        exitItem.Click += (_, _) =>
+                if (_viewModel.ToggleServerCommand.CanExecute(null))
+                {
+                    _viewModel.ToggleServerCommand.Execute(null);
+                }
+            }));
+        menu.Items.Add(CreateMenuItem(_viewModel.Loc["TrayRestore"], PackIconPhosphorIconsKind.AppWindowBold, RestoreWindow));
+        menu.Items.Add(new Separator());
+        menu.Items.Add(CreateMenuItem(_viewModel.Loc["TrayExit"], PackIconPhosphorIconsKind.SignOutBold, () =>
         {
             if (_window is MainWindow mw)
             {
@@ -256,10 +215,23 @@ public class TrayIconService : ITrayIconService
             {
                 Application.Current.Shutdown();
             }
-        };
-        menu.Items.Add(exitItem);
+        }));
 
         menu.IsOpen = true;
+    }
+
+    private static MenuItem CreateMenuItem(string header, PackIconPhosphorIconsKind icon, Action onClick)
+    {
+        var glyph = new System.Windows.Shapes.Path
+        {
+            Data = PhosphorExtension.Get(icon),
+            Stretch = System.Windows.Media.Stretch.Uniform
+        };
+        glyph.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SecondaryTextBrush");
+
+        var item = new MenuItem { Header = header, Icon = glyph };
+        item.Click += (_, _) => onClick();
+        return item;
     }
 
     public void UpdateTooltip(string text)
