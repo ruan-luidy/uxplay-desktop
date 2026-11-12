@@ -18,6 +18,14 @@ public class LogEntry
 
     public string FormattedTime => Timestamp.ToString("HH:mm:ss.fff");
 
+    public Tone Tone => Level switch
+    {
+        LogLevel.Info => Tone.Accent,
+        LogLevel.Warning => Tone.Warning,
+        LogLevel.Error => Tone.Danger,
+        _ => Tone.Neutral
+    };
+
     public string BadgeColor => Level switch
     {
         LogLevel.Debug => "#6C757D",

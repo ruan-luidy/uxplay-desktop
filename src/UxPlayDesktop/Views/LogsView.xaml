@@ -3,82 +3,120 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:controls="clr-namespace:UxPlayDesktop.Controls"
+             xmlns:icons="clr-namespace:UxPlayDesktop.Icons"
              xmlns:models="clr-namespace:UxPlayDesktop.Models"
              xmlns:vm="clr-namespace:UxPlayDesktop.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
              mc:Ignorable="d">
 
-    <Grid Margin="0,10,0,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <UserControl.Resources>
+        <Style x:Key="LogRow" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="8,5" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Row" Padding="{TemplateBinding Padding}" Background="Transparent" CornerRadius="{StaticResource Radius.Md}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Row" Property="Background" Value="{DynamicResource Hover.RowBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Row" Property="Background" Value="{DynamicResource Nav.SelectedBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
-        <!-- Logs Toolbar -->
-        <Grid Grid.Row="0" Margin="0,0,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+    <DockPanel>
+        <TextBlock Margin="0,0,0,16" DockPanel.Dock="Top" Style="{StaticResource PageTitle}" Text="{Binding Loc[TabLogs]}" />
 
-            <TextBox Grid.Column="0"
-                     Text="{Binding Logs.FilterText, UpdateSourceTrigger=PropertyChanged}"
-                     ToolTip="{Binding Loc[LogsFilterTooltip]}"
-                     Height="34"
-                     Margin="0,0,10,0" />
-
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding Logs.AutoScroll}"
-                          Content="{Binding Loc[LogsAutoScroll]}"
-                          Foreground="{StaticResource TextSecondaryBrush}"
-                          VerticalAlignment="Center"
-                          Margin="0,0,12,0" />
-                <Button Command="{Binding Logs.CopyCommand}"
-                        Style="{StaticResource SecondaryButtonStyle}"
-                        Content="{Binding Loc[LogsCopy]}"
-                        Margin="0,0,6,0" />
-                <Button Command="{Binding Logs.ClearCommand}"
-                        Style="{StaticResource SecondaryButtonStyle}"
-                        Content="{Binding Loc[LogsClear]}" />
+        <!-- One strip: search, the level filter with its counts, and the actions on the right -->
+        <DockPanel Margin="0,0,0,12" DockPanel.Dock="Top">
+            <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right" Orientation="Horizontal">
+                <ToggleButton Margin="16,0,8,0" VerticalAlignment="Center" IsChecked="{Binding Logs.AutoScroll}" Style="{StaticResource Switch}" />
+                <TextBlock Margin="0,0,16,0" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding Loc[LogsAutoScroll]}" />
+                <Button Margin="0,0,8,0" hc:IconElement.Geometry="{icons:Phosphor CopyBold}" Command="{Binding Logs.CopyCommand}" Style="{StaticResource Action.Icon}" ToolTip="{Binding Loc[LogsCopy]}" />
+                <Button hc:IconElement.Geometry="{icons:Phosphor TrashBold}" Command="{Binding Logs.ClearCommand}" Style="{StaticResource Action.Icon}" ToolTip="{Binding Loc[LogsClear]}" />
             </StackPanel>
-        </Grid>
 
-        <!-- Logs List -->
-        <Border Grid.Row="1" Background="#111111" CornerRadius="6" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="8">
+            <hc:TextBox Width="280"
+                        Margin="0,0,12,0"
+                        hc:InfoElement.Placeholder="{Binding Loc[LogsFilterTooltip]}"
+                        Style="{StaticResource SearchField}"
+                        Text="{Binding Logs.FilterText, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Border HorizontalAlignment="Left" Style="{StaticResource SegmentGroup}">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Content="{Binding Loc[LogsFilterAll]}" IsChecked="{Binding Logs.IsAllLevels}" Style="{StaticResource SegmentRadio}" />
+                    <RadioButton IsChecked="{Binding Logs.SelectedLevelFilter, Converter={x:Static models:EnumToBooleanConverter.Instance}, ConverterParameter={x:Static models:LogLevel.Warning}}" Style="{StaticResource SegmentRadio}">
+                        <TextBlock><Run Text="{Binding Loc[LogsFilterWarnings], Mode=OneWay}" /><Run FontFamily="{StaticResource FontFamily.Numbers}" Text="{Binding Logs.WarningCount, Mode=OneWay, StringFormat='  {0}'}" /></TextBlock>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding Logs.SelectedLevelFilter, Converter={x:Static models:EnumToBooleanConverter.Instance}, ConverterParameter={x:Static models:LogLevel.Error}}" Style="{StaticResource SegmentRadio}">
+                        <TextBlock><Run Text="{Binding Loc[LogsFilterErrors], Mode=OneWay}" /><Run FontFamily="{StaticResource FontFamily.Numbers}" Text="{Binding Logs.ErrorCount, Mode=OneWay, StringFormat='  {0}'}" /></TextBlock>
+                    </RadioButton>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+
+        <Border Padding="6" Background="{DynamicResource Card.BackgroundBrush}" CornerRadius="{StaticResource Radius.Card}">
             <Grid>
-                <TextBlock Text="{Binding Loc[LogsWaitingPlaceholder]}"
-                           Foreground="#666666"
-                           FontStyle="Italic"
-                           FontSize="13"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding Logs.HasLogs, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}" />
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding Logs.HasLogs, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}">
+                    <Path Width="32" Height="32" Data="{icons:Phosphor TerminalWindowBold}" Fill="{DynamicResource MutedTextBrush}" Stretch="Uniform" />
+                    <TextBlock MaxWidth="360"
+                               Margin="0,12,0,0"
+                               Foreground="{DynamicResource SecondaryTextBrush}"
+                               Text="{Binding Loc[LogsWaitingPlaceholder]}"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap" />
+                </StackPanel>
 
-                <ListView x:Name="LogsListView"
-                           ItemsSource="{Binding Logs.FilteredLogs}"
-                           Background="Transparent"
-                           BorderThickness="0"
-                           Foreground="White"
-                           FontFamily="Consolas, Cascadia Code, Courier New"
-                           FontSize="12">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,2">
+                <ListBox x:Name="LogsListView"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ItemContainerStyle="{StaticResource LogRow}"
+                         ItemsSource="{Binding Logs.FilteredLogs}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         VirtualizingPanel.IsVirtualizing="True"
+                         VirtualizingPanel.ScrollUnit="Pixel"
+                         Visibility="{Binding Logs.HasLogs, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:LogEntry}">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90" />
-                                    <ColumnDefinition Width="65" />
+                                    <ColumnDefinition Width="96" />
+                                    <ColumnDefinition Width="76" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="{Binding FormattedTime}" Foreground="#777777" />
-                                <Border Grid.Column="1" Background="{Binding BadgeColor}" CornerRadius="3" Padding="4,1" HorizontalAlignment="Left" Margin="0,0,6,0">
-                                    <TextBlock Text="{Binding Level}" FontSize="10" FontWeight="Bold" Foreground="White" />
-                                </Border>
-                                <TextBlock Grid.Column="2" Text="{Binding Message}" Foreground="White" TextWrapping="Wrap" />
+                                <TextBlock VerticalAlignment="Top"
+                                           Margin="0,2,0,0"
+                                           FontFamily="{StaticResource FontFamily.Numbers}"
+                                           FontSize="{StaticResource FontSize.Sm}"
+                                           Foreground="{DynamicResource MutedTextBrush}"
+                                           Text="{Binding FormattedTime}" />
+                                <controls:Chip Grid.Column="1" VerticalAlignment="Top" Content="{Binding Level}" Tone="{Binding Tone}" />
+                                <TextBlock Grid.Column="2"
+                                           Margin="0,2,0,0"
+                                           FontFamily="{StaticResource FontFamily.Numbers}"
+                                           FontSize="{StaticResource FontSize.Sm}"
+                                           Foreground="{DynamicResource PrimaryTextBrush}"
+                                           Text="{Binding Message}"
+                                           TextWrapping="Wrap" />
                             </Grid>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </Border>
-    </Grid>
+    </DockPanel>
 </UserControl>

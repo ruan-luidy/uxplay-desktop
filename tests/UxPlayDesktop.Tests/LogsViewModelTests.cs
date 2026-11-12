@@ -55,4 +55,40 @@ public class LogsViewModelTests
         Assert.Single(list);
         Assert.Equal("AirPlay stream active", list[0].Message);
     }
+
+    [Fact]
+    public void LogsViewModel_CountsWarningsAndErrors()
+    {
+        var vm = new LogsViewModel();
+        vm.AddEntry(new LogEntry { Level = LogLevel.Info, Message = "Started" });
+        vm.AddEntry(new LogEntry { Level = LogLevel.Warning, Message = "Jitter" });
+        vm.AddEntry(new LogEntry { Level = LogLevel.Error, Message = "Sink missing" });
+        vm.AddEntry(new LogEntry { Level = LogLevel.Warning, Message = "Underrun" });
+
+        Assert.Equal(2, vm.WarningCount);
+        Assert.Equal(1, vm.ErrorCount);
+
+        vm.ClearLogs();
+
+        Assert.Equal(0, vm.WarningCount);
+        Assert.Equal(0, vm.ErrorCount);
+    }
+
+    [Fact]
+    public void LogsViewModel_LevelFilter_ShowsOnlyThatLevel()
+    {
+        var vm = new LogsViewModel();
+        vm.AddEntry(new LogEntry { Level = LogLevel.Info, Message = "Started" });
+        vm.AddEntry(new LogEntry { Level = LogLevel.Error, Message = "Sink missing" });
+
+        vm.SelectedLevelFilter = LogLevel.Error;
+
+        Assert.False(vm.IsAllLevels);
+        Assert.Equal("Sink missing", Assert.Single(vm.FilteredLogs.Cast<LogEntry>()).Message);
+
+        vm.IsAllLevels = true;
+
+        Assert.Null(vm.SelectedLevelFilter);
+        Assert.Equal(2, vm.FilteredLogs.Cast<LogEntry>().Count());
+    }
 }

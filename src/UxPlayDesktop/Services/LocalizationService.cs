@@ -274,6 +274,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "VIDEO",
             ["StartupSettings"] = "Startup & Window",
             ["AppearanceSettings"] = "Appearance",
+            ["LogsFilterAll"] = "All",
+            ["LogsFilterWarnings"] = "Warnings",
+            ["LogsFilterErrors"] = "Errors",
         };
 
         // 2. SPANISH (Español)
@@ -426,6 +429,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "VÍDEO",
             ["StartupSettings"] = "Inicio y ventana",
             ["AppearanceSettings"] = "Apariencia",
+            ["LogsFilterAll"] = "Todos",
+            ["LogsFilterWarnings"] = "Avisos",
+            ["LogsFilterErrors"] = "Errores",
         };
 
         // 3. FRENCH (Français)
@@ -554,6 +560,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "VIDÉO",
             ["StartupSettings"] = "Démarrage et fenêtre",
             ["AppearanceSettings"] = "Apparence",
+            ["LogsFilterAll"] = "Tous",
+            ["LogsFilterWarnings"] = "Avertissements",
+            ["LogsFilterErrors"] = "Erreurs",
         };
 
         // 4. GERMAN (Deutsch)
@@ -682,6 +691,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "VIDEO",
             ["StartupSettings"] = "Start & Fenster",
             ["AppearanceSettings"] = "Darstellung",
+            ["LogsFilterAll"] = "Alle",
+            ["LogsFilterWarnings"] = "Warnungen",
+            ["LogsFilterErrors"] = "Fehler",
         };
 
         // 5. ITALIAN (Italiano)
@@ -810,6 +822,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "VIDEO",
             ["StartupSettings"] = "Avvio e finestra",
             ["AppearanceSettings"] = "Aspetto",
+            ["LogsFilterAll"] = "Tutti",
+            ["LogsFilterWarnings"] = "Avvisi",
+            ["LogsFilterErrors"] = "Errori",
         };
 
         // 6. PORTUGUESE (Brasil & América)
@@ -938,6 +953,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "VÍDEO",
             ["StartupSettings"] = "Inicialização e janela",
             ["AppearanceSettings"] = "Aparência",
+            ["LogsFilterAll"] = "Todos",
+            ["LogsFilterWarnings"] = "Avisos",
+            ["LogsFilterErrors"] = "Erros",
         };
         _translations["pt-PT"] = _translations["pt-BR"];
 
@@ -1067,6 +1085,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "ВИДЕО",
             ["StartupSettings"] = "Запуск и окно",
             ["AppearanceSettings"] = "Оформление",
+            ["LogsFilterAll"] = "Все",
+            ["LogsFilterWarnings"] = "Предупреждения",
+            ["LogsFilterErrors"] = "Ошибки",
         };
 
         // 8. CHINESE (Simplified - 简体中文)
@@ -1195,6 +1216,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "视频",
             ["StartupSettings"] = "启动与窗口",
             ["AppearanceSettings"] = "外观",
+            ["LogsFilterAll"] = "全部",
+            ["LogsFilterWarnings"] = "警告",
+            ["LogsFilterErrors"] = "错误",
         };
 
         // 9. JAPANESE (日本語)
@@ -1323,6 +1347,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "ビデオ",
             ["StartupSettings"] = "起動とウィンドウ",
             ["AppearanceSettings"] = "外観",
+            ["LogsFilterAll"] = "すべて",
+            ["LogsFilterWarnings"] = "警告",
+            ["LogsFilterErrors"] = "エラー",
         };
 
         // 10. POLISH, DUTCH, UKRAINIAN, SWEDISH, KOREAN aliases & definitions
@@ -1378,6 +1405,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "WIDEO",
             ["StartupSettings"] = "Uruchamianie i okno",
             ["AppearanceSettings"] = "Wygląd",
+            ["LogsFilterAll"] = "Wszystkie",
+            ["LogsFilterWarnings"] = "Ostrzeżenia",
+            ["LogsFilterErrors"] = "Błędy",
         };
 
         _translations["nl"] = new Dictionary<string, string>(_translations["en"])
@@ -1432,6 +1462,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "VIDEO",
             ["StartupSettings"] = "Opstarten en venster",
             ["AppearanceSettings"] = "Weergave",
+            ["LogsFilterAll"] = "Alle",
+            ["LogsFilterWarnings"] = "Waarschuwingen",
+            ["LogsFilterErrors"] = "Fouten",
         };
 
         _translations["uk"] = new Dictionary<string, string>(_translations["ru"])
@@ -1486,6 +1519,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "ВІДЕО",
             ["StartupSettings"] = "Запуск і вікно",
             ["AppearanceSettings"] = "Оформлення",
+            ["LogsFilterAll"] = "Усі",
+            ["LogsFilterWarnings"] = "Попередження",
+            ["LogsFilterErrors"] = "Помилки",
         };
 
         _translations["sv"] = new Dictionary<string, string>(_translations["en"])
@@ -1535,6 +1571,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "VIDEO",
             ["StartupSettings"] = "Start och fönster",
             ["AppearanceSettings"] = "Utseende",
+            ["LogsFilterAll"] = "Alla",
+            ["LogsFilterWarnings"] = "Varningar",
+            ["LogsFilterErrors"] = "Fel",
         };
 
         _translations["ko"] = new Dictionary<string, string>(_translations["ja"])
@@ -1588,6 +1627,9 @@ public class LocalizationService : ILocalizationService
             ["VideoLabel"] = "비디오",
             ["StartupSettings"] = "시작 및 창",
             ["AppearanceSettings"] = "모양",
+            ["LogsFilterAll"] = "전체",
+            ["LogsFilterWarnings"] = "경고",
+            ["LogsFilterErrors"] = "오류",
         };
     }
 }

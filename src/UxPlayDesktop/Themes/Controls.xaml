@@ -541,6 +541,39 @@
         </Setter>
     </Style>
 
+    <!-- A choice between a few options: a translucent track at control height, the chosen one filled with the accent -->
+    <Style x:Key="SegmentGroup" TargetType="Border">
+        <Setter Property="Height" Value="{StaticResource Control.Height}" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Background" Value="{DynamicResource Button.BackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource Radius.Md}" />
+    </Style>
+
+    <Style x:Key="SegmentRadio" TargetType="RadioButton">
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Sm}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="Bg" Padding="10,0" Background="Transparent" CornerRadius="{StaticResource Radius.Sm}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Bg" Property="Background" Value="{DynamicResource PrimaryBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Accent colour picker: round swatches, the chosen one with a ring around it -->
     <Style x:Key="ColorSwatches" TargetType="ListBox">
         <Setter Property="Background" Value="Transparent" />

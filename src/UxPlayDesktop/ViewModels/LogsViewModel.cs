@@ -17,12 +17,16 @@ public class LogsViewModel : ViewModelBase
     private string _searchFilter = string.Empty;
     private LogLevel? _selectedLevelFilter;
     private bool _autoScroll = true;
+    private int _warningCount;
+    private int _errorCount;
     private readonly ICollectionView? _filteredLogsView;
 
     public ObservableCollection<LogEntry> Logs => _allLogs;
     public ICollectionView FilteredLogs => _filteredLogsView ?? CollectionViewSource.GetDefaultView(_allLogs);
 
     public bool HasLogs => _allLogs.Count > 0;
+    public int WarningCount => _warningCount;
+    public int ErrorCount => _errorCount;
 
     public string FilterText
     {
@@ -50,7 +54,20 @@ public class LogsViewModel : ViewModelBase
         {
             if (SetField(ref _selectedLevelFilter, value))
             {
+                OnPropertyChanged(nameof(IsAllLevels));
                 RefreshFilter();
+            }
+        }
+    }
+
+    public bool IsAllLevels
+    {
+        get => !_selectedLevelFilter.HasValue;
+        set
+        {
+            if (value)
+            {
+                SelectedLevelFilter = null;
             }
         }
     }
@@ -86,11 +103,21 @@ public class LogsViewModel : ViewModelBase
             // Limit buffer to last 2000 log items
             if (_allLogs.Count > 2000)
             {
+                Count(_allLogs[0], -1);
                 _allLogs.RemoveAt(0);
             }
             _allLogs.Add(entry);
+            Count(entry, 1);
         }
         OnPropertyChanged(nameof(HasLogs));
+        OnPropertyChanged(nameof(WarningCount));
+        OnPropertyChanged(nameof(ErrorCount));
+    }
+
+    private void Count(LogEntry entry, int delta)
+    {
+        if (entry.Level == LogLevel.Warning) _warningCount += delta;
+        else if (entry.Level == LogLevel.Error) _errorCount += delta;
     }
 
     public void ClearLogs()
@@ -98,8 +125,12 @@ public class LogsViewModel : ViewModelBase
         lock (_logsLock)
         {
             _allLogs.Clear();
+            _warningCount = 0;
+            _errorCount = 0;
         }
         OnPropertyChanged(nameof(HasLogs));
+        OnPropertyChanged(nameof(WarningCount));
+        OnPropertyChanged(nameof(ErrorCount));
     }
 
     public void CopyLogs()
