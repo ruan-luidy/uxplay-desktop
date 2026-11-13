@@ -35,7 +35,7 @@
     <system:Double x:Key="FontSize.Title">20</system:Double>
     <system:Double x:Key="FontSize.Display">24</system:Double>
     <FontFamily x:Key="FontFamily.Default">Segoe UI Variable Text, Segoe UI</FontFamily>
-    <FontFamily x:Key="FontFamily.Numbers">Cascadia Mono, Consolas</FontFamily>
+    <FontFamily x:Key="FontFamily.Mono">Cascadia Mono, Consolas</FontFamily>
 
     <!-- Layers: the side pane sits on the window backdrop, pages are a translucent layer over it, cards one more -->
     <SolidColorBrush x:Key="Window.FallbackBrush" Color="#1C1C1C" />

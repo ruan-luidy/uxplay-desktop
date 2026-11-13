@@ -88,7 +88,7 @@
             <Ellipse Margin="0,0,12,0" VerticalAlignment="Center" DockPanel.Dock="Left" Style="{StaticResource StatusDot}" />
             <StackPanel VerticalAlignment="Center">
                 <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding DisplayClientName}" TextTrimming="CharacterEllipsis" ToolTip="{Binding StatusTitle}" />
-                <TextBlock Margin="0,2,0,0" FontFamily="{StaticResource FontFamily.Numbers}" Style="{StaticResource CaptionText}" Text="{Binding FormattedDuration}" />
+                <TextBlock Margin="0,2,0,0" Typography.NumeralAlignment="Tabular" Style="{StaticResource CaptionText}" Text="{Binding FormattedDuration}" />
             </StackPanel>
         </DockPanel>
     </Border>

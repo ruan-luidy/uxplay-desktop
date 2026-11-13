@@ -76,6 +76,16 @@
         </Style.Triggers>
     </Style>
 
+    <!--
+        A page that scrolls as a whole: the scroll viewer reaches into the page's right margin, so the bar
+        (drawn over the content by the HandyControl template) runs there instead of over the cards. The page
+        content gives the same 16 back on its right side.
+    -->
+    <Style x:Key="PageScroll" TargetType="ScrollViewer" BasedOn="{StaticResource {x:Type ScrollViewer}}">
+        <Setter Property="Margin" Value="0,0,-16,0" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
     <!-- Tooltip: the flyout card with a faint border and a short shadow, wrapping long text -->
     <Style TargetType="ToolTip">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />

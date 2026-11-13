@@ -39,7 +39,7 @@
 
     <Style x:Key="StatValue" TargetType="TextBlock">
         <Setter Property="Margin" Value="0,10,0,2" />
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily.Numbers}" />
+        <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
         <Setter Property="FontSize" Value="{StaticResource FontSize.Title}" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />

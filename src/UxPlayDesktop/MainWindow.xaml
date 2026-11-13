@@ -201,8 +201,8 @@
                                 <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding Loc[DiagnosticRunning]}" />
                             </StackPanel>
 
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{Binding IsRunningDiagnostic, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}">
-                                <StackPanel>
+                            <ScrollViewer Margin="0,0,-16,0" VerticalScrollBarVisibility="Auto" Visibility="{Binding IsRunningDiagnostic, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}">
+                                <StackPanel Margin="0,0,16,0">
                                     <Border Margin="0,0,0,12" Padding="12,10" CornerRadius="{StaticResource Radius.Lg}">
                                         <Border.Style>
                                             <Style TargetType="Border">

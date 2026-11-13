@@ -13,6 +13,7 @@
 
     <UserControl.Resources>
         <Style x:Key="LogRow" TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="0,0,12,0" />
             <Setter Property="Padding" Value="8,5" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -58,10 +59,10 @@
                 <StackPanel Orientation="Horizontal">
                     <RadioButton Content="{Binding Loc[LogsFilterAll]}" IsChecked="{Binding Logs.IsAllLevels}" Style="{StaticResource SegmentRadio}" />
                     <RadioButton IsChecked="{Binding Logs.SelectedLevelFilter, Converter={x:Static models:EnumToBooleanConverter.Instance}, ConverterParameter={x:Static models:LogLevel.Warning}}" Style="{StaticResource SegmentRadio}">
-                        <TextBlock><Run Text="{Binding Loc[LogsFilterWarnings], Mode=OneWay}" /><Run FontFamily="{StaticResource FontFamily.Numbers}" Text="{Binding Logs.WarningCount, Mode=OneWay, StringFormat='  {0}'}" /></TextBlock>
+                        <TextBlock><Run Text="{Binding Loc[LogsFilterWarnings], Mode=OneWay}" /><Run Typography.NumeralAlignment="Tabular" Text="{Binding Logs.WarningCount, Mode=OneWay, StringFormat='  {0}'}" /></TextBlock>
                     </RadioButton>
                     <RadioButton IsChecked="{Binding Logs.SelectedLevelFilter, Converter={x:Static models:EnumToBooleanConverter.Instance}, ConverterParameter={x:Static models:LogLevel.Error}}" Style="{StaticResource SegmentRadio}">
-                        <TextBlock><Run Text="{Binding Loc[LogsFilterErrors], Mode=OneWay}" /><Run FontFamily="{StaticResource FontFamily.Numbers}" Text="{Binding Logs.ErrorCount, Mode=OneWay, StringFormat='  {0}'}" /></TextBlock>
+                        <TextBlock><Run Text="{Binding Loc[LogsFilterErrors], Mode=OneWay}" /><Run Typography.NumeralAlignment="Tabular" Text="{Binding Logs.ErrorCount, Mode=OneWay, StringFormat='  {0}'}" /></TextBlock>
                     </RadioButton>
                 </StackPanel>
             </Border>
@@ -100,14 +101,14 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock VerticalAlignment="Top"
                                            Margin="0,2,0,0"
-                                           FontFamily="{StaticResource FontFamily.Numbers}"
+                                           Typography.NumeralAlignment="Tabular"
                                            FontSize="{StaticResource FontSize.Sm}"
                                            Foreground="{DynamicResource MutedTextBrush}"
                                            Text="{Binding FormattedTime}" />
                                 <controls:Chip Grid.Column="1" VerticalAlignment="Top" Content="{Binding Level}" Tone="{Binding Tone}" />
                                 <TextBlock Grid.Column="2"
                                            Margin="0,2,0,0"
-                                           FontFamily="{StaticResource FontFamily.Numbers}"
+                                           FontFamily="{StaticResource FontFamily.Mono}"
                                            FontSize="{StaticResource FontSize.Sm}"
                                            Foreground="{DynamicResource PrimaryTextBrush}"
                                            Text="{Binding Message}"

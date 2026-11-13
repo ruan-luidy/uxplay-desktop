@@ -101,8 +101,8 @@
         </Style>
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="0,0,0,8">
+    <ScrollViewer Style="{StaticResource PageScroll}">
+        <StackPanel Margin="0,0,16,8">
 
             <!-- Header: the name Apple devices see, the address they reach, and the quick actions -->
             <DockPanel Margin="0,0,0,16">
@@ -141,7 +141,7 @@
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Style="{StaticResource PageTitle}" Text="{Binding Settings.ServerName}" />
                     <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}">
-                        <Run Text="{Binding Loc[LocalIpLabel], Mode=OneWay}" /><Run Text=": " /><Run FontFamily="{StaticResource FontFamily.Numbers}" Text="{Binding LocalNetworkInfo, Mode=OneWay}" />
+                        <Run Text="{Binding Loc[LocalIpLabel], Mode=OneWay}" /><Run Text=": " /><Run Text="{Binding LocalNetworkInfo, Mode=OneWay}" />
                     </TextBlock>
                 </StackPanel>
             </DockPanel>
@@ -167,7 +167,7 @@
 
                     <StackPanel Visibility="{Binding IsUpdating, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}">
                         <DockPanel>
-                            <TextBlock DockPanel.Dock="Right" FontFamily="{StaticResource FontFamily.Numbers}" Foreground="{DynamicResource Accent.TextBrush}" Text="{Binding UpdateProgress, StringFormat='{}{0}%'}" />
+                            <TextBlock DockPanel.Dock="Right" Foreground="{DynamicResource Accent.TextBrush}" Text="{Binding UpdateProgress, StringFormat='{}{0}%'}" />
                             <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}">
                                 <Run Text="{Binding Loc[DownloadingUpdate], Mode=OneWay}" /><Run Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding Loc[PleaseWait], Mode=OneWay, StringFormat='  {0}'}" />
                             </TextBlock>
@@ -184,7 +184,7 @@
                 <DockPanel>
                     <Button DockPanel.Dock="Right" VerticalAlignment="Center" Command="{Binding DismissPinCommand}" Content="{Binding Loc[PinDismiss]}" Style="{StaticResource Action}" />
                     <Path Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center" Data="{icons:Phosphor LockKeyFill}" DockPanel.Dock="Left" Fill="{DynamicResource Warning.TextBrush}" Stretch="Uniform" />
-                    <TextBlock Margin="16,0,24,0" VerticalAlignment="Center" DockPanel.Dock="Right" FontFamily="{StaticResource FontFamily.Numbers}" FontSize="{StaticResource FontSize.Display}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding ActivePinCode}" />
+                    <TextBlock Margin="16,0,24,0" VerticalAlignment="Center" DockPanel.Dock="Right" FontSize="{StaticResource FontSize.Display}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding ActivePinCode}" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Loc[PinRequestedTitle]}" />
                         <TextBlock Margin="0,2,0,0" Style="{StaticResource CaptionText}" Text="{Binding Loc[PinRequestedDesc]}" TextTrimming="None" TextWrapping="Wrap" />
@@ -335,7 +335,7 @@
                     <Border Style="{StaticResource InfoDivider}" />
                     <DockPanel Style="{StaticResource SettingRow}">
                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Width="56" Margin="0,0,12,0" VerticalAlignment="Center" FontFamily="{StaticResource FontFamily.Numbers}" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding VolumeDisplay}" TextAlignment="Right" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Width="56" Margin="0,0,12,0" VerticalAlignment="Center" Typography.NumeralAlignment="Tabular" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding VolumeDisplay}" TextAlignment="Right" TextTrimming="CharacterEllipsis" />
                             <Slider Width="200" Margin="0,0,12,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding AudioVolume}" />
                             <ToggleButton hc:IconElement.Geometry="{icons:Phosphor SpeakerHighBold}"
                                           hc:IconSwitchElement.GeometrySelected="{icons:Phosphor SpeakerSlashBold}"

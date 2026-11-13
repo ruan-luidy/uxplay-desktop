@@ -26,7 +26,6 @@
         </Style>
         <Style x:Key="RowNumber" TargetType="TextBox" BasedOn="{StaticResource RowField}">
             <Setter Property="Width" Value="80" />
-            <Setter Property="FontFamily" Value="{StaticResource FontFamily.Numbers}" />
             <Setter Property="TextAlignment" Value="Right" />
         </Style>
         <Style x:Key="RowCombo" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
@@ -47,8 +46,8 @@
             <TextBlock VerticalAlignment="Center" Style="{StaticResource PageTitle}" Text="{Binding Loc[TabSettings]}" />
         </DockPanel>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="0,0,0,16">
+        <ScrollViewer Style="{StaticResource PageScroll}">
+            <StackPanel Margin="0,0,16,16">
 
                 <!-- General -->
                 <TextBlock Style="{StaticResource SectionLabel}" Text="{Binding Loc[GeneralSettings]}" />
@@ -203,7 +202,7 @@
                         </DockPanel>
                         <Border Style="{StaticResource InfoDivider}" />
                         <DockPanel Style="{StaticResource SettingRow}">
-                            <TextBox FontFamily="{StaticResource FontFamily.Numbers}" Style="{StaticResource RowField}" Text="{Binding Settings.VideoSink}" />
+                            <TextBox Style="{StaticResource RowField}" Text="{Binding Settings.VideoSink}" />
                             <StackPanel Style="{StaticResource SettingText}">
                                 <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[VideoSinkLabel]}" />
                             </StackPanel>
@@ -245,7 +244,7 @@
                         <Border Style="{StaticResource InfoDivider}" />
                         <DockPanel Style="{StaticResource SettingRow}">
                             <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right" Orientation="Horizontal">
-                                <TextBlock Width="56" Margin="0,0,12,0" VerticalAlignment="Center" FontFamily="{StaticResource FontFamily.Numbers}" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding VolumeDisplay}" TextAlignment="Right" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Width="56" Margin="0,0,12,0" VerticalAlignment="Center" Typography.NumeralAlignment="Tabular" Foreground="{DynamicResource SecondaryTextBrush}" Text="{Binding VolumeDisplay}" TextAlignment="Right" TextTrimming="CharacterEllipsis" />
                                 <Slider Width="200" Margin="0,0,12,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding AudioVolume}" />
                                 <ToggleButton hc:IconElement.Geometry="{icons:Phosphor SpeakerHighBold}"
                                               hc:IconSwitchElement.GeometrySelected="{icons:Phosphor SpeakerSlashBold}"
@@ -266,7 +265,7 @@
                         </DockPanel>
                         <Border Style="{StaticResource InfoDivider}" />
                         <DockPanel Style="{StaticResource SettingRow}">
-                            <TextBox FontFamily="{StaticResource FontFamily.Numbers}" Style="{StaticResource RowField}" Text="{Binding Settings.AudioSink}" />
+                            <TextBox Style="{StaticResource RowField}" Text="{Binding Settings.AudioSink}" />
                             <StackPanel Style="{StaticResource SettingText}">
                                 <TextBlock Style="{StaticResource SettingTitle}" Text="{Binding Loc[AudioSinkLabel]}" />
                             </StackPanel>
