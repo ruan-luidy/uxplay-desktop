@@ -4,6 +4,7 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:hc="https://handyorg.github.io/handycontrol"
+           xmlns:animation="clr-namespace:UxPlayDesktop.Animation"
            xmlns:controls="clr-namespace:UxPlayDesktop.Controls"
            xmlns:icons="clr-namespace:UxPlayDesktop.Icons"
            xmlns:models="clr-namespace:UxPlayDesktop.Models"
@@ -48,7 +49,9 @@
                                  IsChecked="{Binding SelectedPage, Converter={x:Static models:EnumToBooleanConverter.Instance}, ConverterParameter={x:Static vm:AppPage.Dashboard}}"
                                  Style="{StaticResource SideNavItem}"
                                  Tag="{icons:Phosphor ScreencastBold}" />
-                    <RadioButton Content="{Binding Loc[TabLogs]}"
+                    <RadioButton controls:NavBadge.Count="{Binding Logs.ErrorCount}"
+                                 controls:NavBadge.IsAlert="True"
+                                 Content="{Binding Loc[TabLogs]}"
                                  IsChecked="{Binding SelectedPage, Converter={x:Static models:EnumToBooleanConverter.Instance}, ConverterParameter={x:Static vm:AppPage.Logs}}"
                                  Style="{StaticResource SideNavItem}"
                                  Tag="{icons:Phosphor TerminalWindowBold}" />
@@ -57,10 +60,10 @@
 
             <Border Grid.Column="1" Background="{DynamicResource Pane.BackgroundBrush}" CornerRadius="12,0,0,0">
                 <Grid Margin="{StaticResource Page.Margin}">
-                    <views:DashboardView Visibility="{Binding SelectedPage, Converter={x:Static models:EnumToVisibilityConverter.Instance}, ConverterParameter={x:Static vm:AppPage.Dashboard}}" />
-                    <views:LogsView Visibility="{Binding SelectedPage, Converter={x:Static models:EnumToVisibilityConverter.Instance}, ConverterParameter={x:Static vm:AppPage.Logs}}" />
-                    <views:SettingsView Visibility="{Binding SelectedPage, Converter={x:Static models:EnumToVisibilityConverter.Instance}, ConverterParameter={x:Static vm:AppPage.Settings}}" />
-                    <views:AboutView Visibility="{Binding SelectedPage, Converter={x:Static models:EnumToVisibilityConverter.Instance}, ConverterParameter={x:Static vm:AppPage.About}}" />
+                    <views:DashboardView animation:Motion.RiseOnShow="True" Visibility="{Binding SelectedPage, Converter={x:Static models:EnumToVisibilityConverter.Instance}, ConverterParameter={x:Static vm:AppPage.Dashboard}}" />
+                    <views:LogsView animation:Motion.RiseOnShow="True" Visibility="{Binding SelectedPage, Converter={x:Static models:EnumToVisibilityConverter.Instance}, ConverterParameter={x:Static vm:AppPage.Logs}}" />
+                    <views:SettingsView animation:Motion.RiseOnShow="True" Visibility="{Binding SelectedPage, Converter={x:Static models:EnumToVisibilityConverter.Instance}, ConverterParameter={x:Static vm:AppPage.Settings}}" />
+                    <views:AboutView animation:Motion.RiseOnShow="True" Visibility="{Binding SelectedPage, Converter={x:Static models:EnumToVisibilityConverter.Instance}, ConverterParameter={x:Static vm:AppPage.About}}" />
                 </Grid>
             </Border>
         </Grid>

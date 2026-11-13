@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:controls="clr-namespace:UxPlayDesktop.Controls"
              xmlns:icons="clr-namespace:UxPlayDesktop.Icons"
              xmlns:models="clr-namespace:UxPlayDesktop.Models"
              xmlns:vm="clr-namespace:UxPlayDesktop.ViewModels"
@@ -85,7 +86,10 @@
                 <Slider Width="90" VerticalAlignment="Center" Maximum="1" Minimum="0" ToolTip="{Binding VolumeDisplay}" Value="{Binding AudioVolume}" />
             </StackPanel>
 
-            <Ellipse Margin="0,0,12,0" VerticalAlignment="Center" DockPanel.Dock="Left" Style="{StaticResource StatusDot}" />
+            <Grid Margin="0,0,12,0" VerticalAlignment="Center" DockPanel.Dock="Left">
+                <Ellipse Style="{StaticResource StatusDot}" Visibility="{Binding IsStreaming, Converter={x:Static models:InverseBoolToVisibilityConverter.Instance}}" />
+                <controls:LiveDot Visibility="{Binding IsStreaming, Converter={x:Static models:ObjectToVisibilityConverter.Instance}}" />
+            </Grid>
             <StackPanel VerticalAlignment="Center">
                 <TextBlock FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding DisplayClientName}" TextTrimming="CharacterEllipsis" ToolTip="{Binding StatusTitle}" />
                 <TextBlock Margin="0,2,0,0" Typography.NumeralAlignment="Tabular" Style="{StaticResource CaptionText}" Text="{Binding FormattedDuration}" />
