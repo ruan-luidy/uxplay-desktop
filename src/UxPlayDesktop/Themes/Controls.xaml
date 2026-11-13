@@ -240,8 +240,7 @@
                                Placement="Bottom"
                                PlacementTarget="{Binding ElementName=Root}"
                                PopupAnimation="Fade"
-                               HorizontalOffset="-12"
-                               VerticalOffset="-4">
+                               VerticalOffset="4">
                             <ContentControl MinWidth="{Binding ActualWidth, ElementName=Root}" Padding="4,3" Style="{StaticResource Flyout}">
                                 <ScrollViewer MaxHeight="{TemplateBinding MaxDropDownHeight}" Focusable="False">
                                     <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
